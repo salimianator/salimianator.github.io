@@ -473,13 +473,13 @@
           const nx = s * lineFreq + linePhaseX + time * lineSpeed;
           const ny = i * 0.55 + linePhaseY + time * (lineSpeed * 0.5);
 
-          const n1 = noise(nx, ny) - 0.5;
-          const n2 = (noise(nx * 2.3, ny * 2.3) - 0.5) * 0.45;
+          const n1 = (noise(nx, ny) - 0.5) * 0.25;          // reduced noise
+          const n2 = (noise(nx * 2.3, ny * 2.3) - 0.5) * 0.1; // subtle texture only
 
           // Raw sine with per-line temporal speed
           const rawSine = Math.sin(px * 0.016 + time * lineSineSpd + lineSineOff);
           // Sharpen peaks: raise to power, keep sign — spiky rather than rounded
-          const sine = Math.sign(rawSine) * Math.pow(Math.abs(rawSine), 0.45) * 0.35;
+          const sine = Math.sign(rawSine) * Math.pow(Math.abs(rawSine), 0.45) * 0.65;
 
           const displacement = (n1 + n2 + sine) * baseAmp * horizEnv;
           const py = y0 - displacement;
