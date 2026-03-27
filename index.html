@@ -219,50 +219,52 @@
       padding: 2rem;
     }
 
-    /* Row of three cards */
+    /* Row of three card columns */
     .bg-row {
       display: flex;
       gap: 0;
-      width: min(960px, 92vw);
+      width: min(1400px, 68vw);
       align-items: stretch;
     }
 
-    /* Horizontal date connectors between cards */
-    .bg-h-connector {
-      flex-shrink: 0;
-      width: 64px;
-      position: relative;
+    /* Column: card + date label underneath */
+    .bg-card-col {
+      flex: 1;
+      min-width: 0;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding-top: 50px;
-      gap: 3px;
+      align-items: stretch;
+      gap: 0.55rem;
     }
 
-    /* Horizontal line running through logo-area center */
+    /* Date label below each card */
+    .bg-date {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: clamp(0.85rem, 1.1vw, 1rem);
+      color: rgba(15, 10, 5, 0.55);
+      text-align: center;
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+    }
+
+    /* Horizontal connector line between card columns */
+    .bg-h-connector {
+      flex-shrink: 0;
+      width: 48px;
+      align-self: stretch;
+      position: relative;
+    }
+
     .bg-h-connector::before {
       content: '';
       position: absolute;
       left: 0; right: 0;
       top: 70px;
       height: 1px;
-      background: rgba(15, 10, 5, 0.18);
-    }
-
-    .h-date {
-      font-family: 'EB Garamond', Georgia, serif;
-      font-size: 0.70rem;
-      color: rgba(15, 10, 5, 0.48);
-      letter-spacing: 0.04em;
-      text-align: center;
-      line-height: 1.35;
-      position: relative;
-      z-index: 1;
+      background: rgba(15, 10, 5, 0.22);
     }
 
     .bg-card-single {
-      flex: 1;
       min-width: 0;
       display: flex;
       flex-direction: column;
@@ -446,7 +448,6 @@
     }
 
     .fellowship-badge {
-      font-style: italic;
       color: #7a5c12;
     }
 
@@ -578,7 +579,7 @@
 
       /* Stack cards vertically on mobile */
       .bg-row { flex-direction: column; }
-      .bg-card-single { width: 100%; }
+      .bg-card-col { width: 100%; }
       .bg-h-connector { display: none; }
     }
   </style>
@@ -618,60 +619,65 @@
     <div class="bg-row">
 
       <!-- UChicago -->
-      <div class="bg-card-single uchicago-card">
-        <div class="bg-logo-area">
-          <div class="blob-wrap" aria-hidden="true">
-            <div class="logo-blob logo-blob-a"></div>
-            <div class="logo-blob logo-blob-b"></div>
-            <div class="logo-blob logo-blob-c"></div>
+      <div class="bg-card-col">
+        <div class="bg-card-single uchicago-card">
+          <div class="bg-logo-area">
+            <div class="blob-wrap" aria-hidden="true">
+              <div class="logo-blob logo-blob-a"></div>
+              <div class="logo-blob logo-blob-b"></div>
+              <div class="logo-blob logo-blob-c"></div>
+            </div>
+            <img src="uchicago.png" alt="University of Chicago" />
           </div>
-          <img src="uchicago.png" alt="University of Chicago" />
+          <div class="bg-text">
+            <div class="bg-title">PhD completed · UChicago</div>
+            <p>Completed my PhD in Computational Neuroscience in the <a href="https://www.kaufmanlab.org/" target="_blank" rel="noopener">Kaufman lab</a> at UChicago. My thesis focused on disentangling the structure of neural activity across the sensorimotor cortex. <span class="fellowship-badge">Recipient of the International Student Fellowship.</span></p>
+          </div>
         </div>
-        <div class="bg-text">
-          <p>Completed my PhD in Computational Neuroscience in the <a href="https://www.kaufmanlab.org/" target="_blank" rel="noopener">Kaufman lab</a> at UChicago. My thesis focused on disentangling the structure of neural activity across the sensorimotor cortex. <span class="fellowship-badge">Recipient of the International Student Fellowship.</span></p>
-        </div>
+        <div class="bg-date">May 2024 – Oct 2025</div>
       </div>
 
       <!-- Connector: UChicago → ARCH -->
-      <div class="bg-h-connector">
-        <span class="h-date">Oct 2025</span>
-        <span class="h-date">May 2024</span>
-      </div>
+      <div class="bg-h-connector"></div>
 
       <!-- ARCH Venture Partners -->
-      <div class="bg-card-single arch-card">
-        <div class="bg-logo-area">
-          <div class="blob-wrap" aria-hidden="true">
-            <div class="logo-blob logo-blob-a"></div>
-            <div class="logo-blob logo-blob-b"></div>
-            <div class="logo-blob logo-blob-c"></div>
+      <div class="bg-card-col">
+        <div class="bg-card-single arch-card">
+          <div class="bg-logo-area">
+            <div class="blob-wrap" aria-hidden="true">
+              <div class="logo-blob logo-blob-a"></div>
+              <div class="logo-blob logo-blob-b"></div>
+              <div class="logo-blob logo-blob-c"></div>
+            </div>
+            <img src="ARCH.png" alt="ARCH Venture Partners" />
           </div>
-          <img src="ARCH.png" alt="ARCH Venture Partners" />
-        </div>
-        <div class="bg-text">
-          <div class="bg-title">ARCH Venture Partners — Intern<br><span class="bg-title-sub">(Deep Tech &amp; Biotech Investing)</span></div>
-          <p>Interned at ARCH where I contributed to several white papers on the use of AI in drug discovery processes.</p>
+          <div class="bg-text">
+            <div class="bg-title">ARCH Venture Partners — Intern<br><span class="bg-title-sub">(Deep Tech &amp; Biotech Investing)</span></div>
+            <p>Interned at ARCH where I contributed to several white papers on the use of AI in drug discovery processes.</p>
+          </div>
         </div>
       </div>
 
       <!-- Connector: ARCH → UofT -->
-      <div class="bg-h-connector">
-        <span class="h-date">Jul 2016</span>
-      </div>
+      <div class="bg-h-connector"></div>
 
       <!-- University of Toronto -->
-      <div class="bg-card-single utoronto-card">
-        <div class="bg-logo-area">
-          <div class="blob-wrap" aria-hidden="true">
-            <div class="logo-blob logo-blob-a"></div>
-            <div class="logo-blob logo-blob-b"></div>
-            <div class="logo-blob logo-blob-c"></div>
+      <div class="bg-card-col">
+        <div class="bg-card-single utoronto-card">
+          <div class="bg-logo-area">
+            <div class="blob-wrap" aria-hidden="true">
+              <div class="logo-blob logo-blob-a"></div>
+              <div class="logo-blob logo-blob-b"></div>
+              <div class="logo-blob logo-blob-c"></div>
+            </div>
+            <img src="utoronto.png" alt="University of Toronto" />
           </div>
-          <img src="utoronto.png" alt="University of Toronto" />
+          <div class="bg-text">
+            <div class="bg-title">Undergraduate completed · UofT</div>
+            <p>Completed my undergraduate studies at the University of Toronto, double majoring in Biology and Psychology. Post-bacc researcher under Richard Wildes building interpretable convolutional neural networks.</p>
+          </div>
         </div>
-        <div class="bg-text">
-          <p>Completed my undergraduate studies at the University of Toronto, double majoring in Biology and Psychology.</p>
-        </div>
+        <div class="bg-date">Jul 2016</div>
       </div>
 
     </div>
