@@ -225,7 +225,17 @@
     .bg-entry {
       display: flex;
       align-items: stretch;
-      min-height: 180px;
+      min-height: 190px;
+      position: relative;
+    }
+
+    /* Gradient lives on the entry so it can bleed wide toward the text */
+    .bg-entry.uchicago-entry {
+      background: radial-gradient(ellipse 80% 130% at 100% 50%, #8B0000 0%, rgba(238,235,228,0) 78%);
+    }
+
+    .bg-entry.utoronto-entry {
+      background: radial-gradient(ellipse 80% 130% at 100% 50%, #002A5C 0%, rgba(238,235,228,0) 78%);
     }
 
     .bg-text {
@@ -257,46 +267,53 @@
     }
 
     .bg-logo-area {
-      width: 210px;
+      width: 230px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 2rem;
       position: relative;
-    }
-
-    .bg-logo-area.uchicago {
-      background: radial-gradient(ellipse at 65% 50%, #8B0000 0%, rgba(238,235,228,0) 72%);
-    }
-
-    .bg-logo-area.utoronto {
-      background: radial-gradient(ellipse at 65% 50%, #002A5C 0%, rgba(238,235,228,0) 72%);
+      /* no gradient here — it's on the parent .bg-entry */
     }
 
     .bg-logo-area img {
-      width: 100px;
+      width: 130px;
       height: auto;
       object-fit: contain;
       position: relative;
       z-index: 1;
     }
 
+    /* Connector: centered line + purple glow where the two gradients meet */
     .bg-connector {
       display: flex;
       align-items: center;
-      padding: 0 0 0 2.8rem;
-      height: 40px;
+      justify-content: center;
+      height: 44px;
       position: relative;
     }
 
+    /* Centered vertical line */
     .bg-connector::before {
       content: '';
       display: block;
-      width: 1px;
+      width: 2px;
       height: 100%;
-      background: linear-gradient(to bottom, rgba(26,26,26,0.12), rgba(26,26,26,0.12));
-      margin-left: 0;
+      background: rgba(26,26,26,0.18);
+      border-radius: 2px;
+    }
+
+    /* Purple glow at the right side — blending maroon above with navy below */
+    .bg-connector::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 230px;
+      background: radial-gradient(ellipse at 65% 50%, rgba(120, 0, 90, 0.28) 0%, transparent 72%);
+      pointer-events: none;
     }
 
     /* ── Main content ──────────────────────────────────────────────────────── */
@@ -453,20 +470,20 @@
   <!-- Background section -->
   <div id="background-section" class="page-section">
     <div class="bg-card">
-      <div class="bg-entry">
+      <div class="bg-entry uchicago-entry">
         <div class="bg-text">
           <p>Completed my PhD in Computational Neuroscience in the <a href="https://www.kaufmanlab.org/" target="_blank" rel="noopener">Kaufman lab</a> at UChicago. My thesis focused on disentangling the structure of neural activity across the sensorimotor cortex.</p>
         </div>
-        <div class="bg-logo-area uchicago">
+        <div class="bg-logo-area">
           <img src="uchicago.png" alt="University of Chicago" />
         </div>
       </div>
       <div class="bg-connector"></div>
-      <div class="bg-entry">
+      <div class="bg-entry utoronto-entry">
         <div class="bg-text">
           <p>Completed my undergraduate studies at the University of Toronto, double majoring in Biology and Psychology.</p>
         </div>
-        <div class="bg-logo-area utoronto">
+        <div class="bg-logo-area">
           <img src="utoronto.png" alt="University of Toronto" />
         </div>
       </div>
