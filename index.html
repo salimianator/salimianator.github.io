@@ -192,6 +192,113 @@
       transition: opacity 0.25s ease;
     }
 
+    /* ── Page sections ─────────────────────────────────────────────────────── */
+    .page-section {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      padding: 2rem;
+    }
+
+    .page-section.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ── Background section card ───────────────────────────────────────────── */
+    .bg-card {
+      background: rgba(238, 235, 228, 0.92);
+      border-radius: 20px;
+      box-shadow: 0 8px 60px rgba(0,0,0,0.18);
+      overflow: hidden;
+      width: min(820px, 90vw);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bg-entry {
+      display: flex;
+      align-items: stretch;
+      min-height: 180px;
+    }
+
+    .bg-text {
+      flex: 1;
+      padding: 2.4rem 2.4rem 2.4rem 2.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .bg-text p {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+      color: #1a1a1a;
+      line-height: 1.75;
+      font-weight: 400;
+    }
+
+    .bg-text a {
+      color: #1a1a1a;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(26,26,26,0.35);
+      transition: text-decoration-color 0.2s ease;
+    }
+
+    .bg-text a:hover {
+      text-decoration-color: #1a1a1a;
+    }
+
+    .bg-logo-area {
+      width: 210px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .bg-logo-area.uchicago {
+      background: radial-gradient(ellipse at 65% 50%, #8B0000 0%, rgba(238,235,228,0) 72%);
+    }
+
+    .bg-logo-area.utoronto {
+      background: radial-gradient(ellipse at 65% 50%, #002A5C 0%, rgba(238,235,228,0) 72%);
+    }
+
+    .bg-logo-area img {
+      width: 100px;
+      height: auto;
+      object-fit: contain;
+      position: relative;
+      z-index: 1;
+    }
+
+    .bg-connector {
+      display: flex;
+      align-items: center;
+      padding: 0 0 0 2.8rem;
+      height: 40px;
+      position: relative;
+    }
+
+    .bg-connector::before {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(26,26,26,0.12), rgba(26,26,26,0.12));
+      margin-left: 0;
+    }
+
     /* ── Main content ──────────────────────────────────────────────────────── */
     .content {
       position: fixed;
@@ -320,10 +427,10 @@
   <!-- Menu overlay -->
   <div id="menu-overlay">
     <ul class="menu-nav">
-      <li><a href="#"><span class="menu-index">[0]</span> Home</a></li>
-      <li><a href="#"><span class="menu-index">[1]</span> Background</a></li>
-      <li><a href="#"><span class="menu-index">[2]</span> Research</a></li>
-      <li><a href="#"><span class="menu-index">[3]</span> Current Projects</a></li>
+      <li><a href="#" data-section="home"><span class="menu-index">[0]</span> Home</a></li>
+      <li><a href="#" data-section="background"><span class="menu-index">[1]</span> Background</a></li>
+      <li><a href="#" data-section="research"><span class="menu-index">[2]</span> Research</a></li>
+      <li><a href="#" data-section="projects"><span class="menu-index">[3]</span> Current Projects</a></li>
     </ul>
   </div>
 
@@ -342,6 +449,29 @@
     <div>Chicago · IL</div>
   </div>
   <div class="corner" id="site-url">salimianator.github.io</div>
+
+  <!-- Background section -->
+  <div id="background-section" class="page-section">
+    <div class="bg-card">
+      <div class="bg-entry">
+        <div class="bg-text">
+          <p>Completed my PhD in Computational Neuroscience in the <a href="https://www.kaufmanlab.org/" target="_blank" rel="noopener">Kaufman lab</a> at UChicago. My thesis focused on disentangling the structure of neural activity across the sensorimotor cortex.</p>
+        </div>
+        <div class="bg-logo-area uchicago">
+          <img src="uchicago.png" alt="University of Chicago" />
+        </div>
+      </div>
+      <div class="bg-connector"></div>
+      <div class="bg-entry">
+        <div class="bg-text">
+          <p>Completed my undergraduate studies at the University of Toronto, double majoring in Biology and Psychology.</p>
+        </div>
+        <div class="bg-logo-area utoronto">
+          <img src="utoronto.png" alt="University of Toronto" />
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Main content -->
   <div class="content">
@@ -410,15 +540,48 @@
     tick();
     setInterval(tick, 1000);
 
-    // ── Hamburger menu toggle ───────────────────────────────────────────────
+    // ── Section routing ─────────────────────────────────────────────────────
+    const mainContent   = document.querySelector('.content');
+    const bgSection     = document.getElementById('background-section');
+    const allSections   = [bgSection];
+
+    function navigateTo(section) {
+      document.body.classList.remove('menu-open');
+      if (section === 'home') {
+        mainContent.style.opacity = '';
+        mainContent.style.pointerEvents = '';
+        allSections.forEach(s => s.classList.remove('active'));
+      } else if (section === 'background') {
+        mainContent.style.opacity = '0';
+        mainContent.style.pointerEvents = 'none';
+        allSections.forEach(s => s.classList.remove('active'));
+        bgSection.classList.add('active');
+      } else {
+        // Research / Projects — placeholder, just close menu for now
+        mainContent.style.opacity = '';
+        mainContent.style.pointerEvents = '';
+        allSections.forEach(s => s.classList.remove('active'));
+      }
+    }
+
+    // Menu button toggle
     document.getElementById('menu-btn').addEventListener('click', () => {
       document.body.classList.toggle('menu-open');
     });
 
+    // Click outside nav items to close
     document.getElementById('menu-overlay').addEventListener('click', (e) => {
       if (!e.target.closest('.menu-nav')) {
         document.body.classList.remove('menu-open');
       }
+    });
+
+    // Menu link clicks
+    document.querySelectorAll('.menu-nav a[data-section]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigateTo(a.dataset.section);
+      });
     });
 
     // ── Joy Division canvas ─────────────────────────────────────────────────
