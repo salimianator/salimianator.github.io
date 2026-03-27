@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sohrab Salimian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400;1,500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f0ede6;
+      --fg: #1a1a1a;
+      --fg-muted: #7a7670;
+      --transition: 1.4s ease;
+    }
+
+    :root.dark {
+      --bg: #0a0a0a;
+      --fg: #e8e4dc;
+      --fg-muted: #5a5650;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--fg);
+      transition: background-color var(--transition), color var(--transition);
+      font-family: 'IBM Plex Mono', monospace;
+      position: relative;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.18;
+      transition: opacity var(--transition);
+    }
+
+    /* Corner elements */
+    .corner {
+      position: fixed;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: var(--fg-muted);
+      transition: color var(--transition);
+    }
+
+    #mode-indicator {
+      top: 1.8rem;
+      left: 2rem;
+    }
+
+    #location-top {
+      top: 1.8rem;
+      right: 2rem;
+    }
+
+    #clock-block {
+      bottom: 1.8rem;
+      left: 2rem;
+      line-height: 1.6;
+    }
+
+    #site-url {
+      bottom: 1.8rem;
+      right: 2rem;
+    }
+
+    /* Main content */
+    .content {
+      position: fixed;
+      top: 50%;
+      left: 7vw;
+      transform: translateY(-50%);
+    }
+
+    .name-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+    }
+
+    .name {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(3.2rem, 6.5vw, 6rem);
+      font-weight: 400;
+      line-height: 1;
+      color: var(--fg);
+      transition: color var(--transition);
+      letter-spacing: -0.01em;
+    }
+
+    .phd-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(0.55rem, 1vw, 0.75rem);
+      font-weight: 300;
+      color: var(--fg-muted);
+      transition: color var(--transition);
+      margin-top: 0.3em;
+      letter-spacing: 0.03em;
+    }
+
+    .divider {
+      width: clamp(200px, 35vw, 480px);
+      height: 1px;
+      background-color: var(--fg-muted);
+      transition: background-color var(--transition);
+      margin: 1.1rem 0 1.0rem 0;
+      opacity: 0;
+      transform: scaleX(0.4);
+      transform-origin: left;
+      animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.65s forwards;
+    }
+
+    .subtitle {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 300;
+      line-height: 1.75;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards;
+    }
+
+    .subtitle-primary {
+      font-size: clamp(0.8rem, 1.35vw, 1.1rem);
+      color: var(--fg);
+      transition: color var(--transition);
+      letter-spacing: 0.01em;
+    }
+
+    .subtitle-secondary {
+      font-size: clamp(0.75rem, 1.2vw, 1rem);
+      color: var(--fg-muted);
+      transition: color var(--transition);
+      letter-spacing: 0.01em;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Corners -->
+  <div class="corner" id="mode-indicator">— dark —</div>
+  <div class="corner" id="location-top">Chicago, IL</div>
+  <div class="corner" id="clock-block">
+    <div id="clock">00:00:00</div>
+    <div>Chicago · IL</div>
+  </div>
+  <div class="corner" id="site-url">salimianator.github.io</div>
+
+  <!-- Main content -->
+  <div class="content">
+    <div class="name-line">
+      <span class="name">Sohrab Salimian</span>
+      <sup class="phd-tag">Ph.D</sup>
+    </div>
+    <div class="divider"></div>
+    <div class="subtitle">
+      <div class="subtitle-primary">Neuroscientist.</div>
+      <div class="subtitle-secondary">I build models to learn representations</div>
+      <div class="subtitle-secondary">in complex datasets.</div>
+    </div>
+  </div>
+
+  <script>
+    // ── Mode: light 7am–7pm, dark 7pm–7am ──────────────────────────────────
+    const root = document.documentElement;
+    const modeEl = document.getElementById('mode-indicator');
+
+    function applyMode() {
+      const h = new Date().getHours();
+      const isDark = h < 7 || h >= 19;
+      if (isDark) {
+        root.classList.add('dark');
+        modeEl.textContent = '— dark —';
+      } else {
+        root.classList.remove('dark');
+        modeEl.textContent = '— light —';
+      }
+    }
+
+    applyMode();
+    // Re-check every minute (no need more often)
+    setInterval(applyMode, 60_000);
+
+    // ── Live clock ──────────────────────────────────────────────────────────
+    const clockEl = document.getElementById('clock');
+    function tick() {
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const ss = String(now.getSeconds()).padStart(2, '0');
+      clockEl.textContent = `${hh}:${mm}:${ss}`;
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    // ── Joy Division canvas ─────────────────────────────────────────────────
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+
+    const NUM_LINES = 44;
+    const NOISE_SCALE = 0.012;
+    const SPEED = 0.00055;
+    let time = 0;
+    let W, H, lineSpacing, startY;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+      const totalHeight = H * 0.72;
+      lineSpacing = totalHeight / (NUM_LINES - 1);
+      startY = H * 0.14;
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Simple seeded pseudo-random for stable noise
+    function hash(x, y) {
+      const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
+      return n - Math.floor(n);
+    }
+
+    // Smooth value noise
+    function noise(x, y) {
+      const ix = Math.floor(x), iy = Math.floor(y);
+      const fx = x - ix, fy = y - iy;
+      const ux = fx * fx * (3 - 2 * fx);
+      const uy = fy * fy * (3 - 2 * fy);
+      const a = hash(ix,     iy);
+      const b = hash(ix + 1, iy);
+      const c = hash(ix,     iy + 1);
+      const d = hash(ix + 1, iy + 1);
+      return a + (b - a) * ux + (c - a) * uy + ((a - b - c + d) * ux * uy);
+    }
+
+    function getFgColor() {
+      return root.classList.contains('dark') ? '#e8e4dc' : '#1a1a1a';
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      const color = getFgColor();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.2;
+
+      for (let i = 0; i < NUM_LINES; i++) {
+        const t = i / (NUM_LINES - 1); // 0..1
+        // Bell-curve envelope: amplitude peaks in the middle of the stack
+        const envelope = Math.exp(-Math.pow((t - 0.5) * 3.4, 2));
+        const baseAmp = lineSpacing * 2.8 * envelope;
+
+        const y0 = startY + i * lineSpacing;
+
+        ctx.beginPath();
+        const steps = Math.ceil(W / 2);
+        for (let s = 0; s <= steps; s++) {
+          const px = (s / steps) * W;
+          const nx = s * NOISE_SCALE + time * 0.6;
+          const ny = i * 0.22 + time;
+
+          // Combine two noise octaves
+          const n1 = noise(nx, ny) - 0.5;
+          const n2 = (noise(nx * 2.1, ny * 2.1) - 0.5) * 0.4;
+          // Also add a subtle sine component
+          const sine = Math.sin(px * 0.018 + time * 1.8 + i * 0.35) * 0.15;
+
+          const displacement = (n1 + n2 + sine) * baseAmp;
+          const py = y0 - displacement;
+
+          s === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+      }
+
+      time += SPEED;
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+</body>
+</html>
