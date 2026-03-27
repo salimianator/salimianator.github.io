@@ -523,6 +523,40 @@
       max-height: 400px;
     }
 
+    /* work_2: tall image left, two square images stacked right */
+    .pub-images-work2 {
+      align-items: stretch;
+      height: 400px;
+    }
+
+    .pub-images-work2 img {
+      max-height: none; /* override 200px default */
+    }
+
+    .pub-img-tall {
+      flex: none;
+      width: auto;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .pub-img-stack {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .pub-img-stack img {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
     .pub-desc p {
       font-family: 'EB Garamond', Georgia, serif;
       font-size: clamp(0.85rem, 1.1vw, 1rem);
@@ -800,10 +834,12 @@
 
         <!-- Right column: work_2 -->
         <div class="pub-col">
-          <div class="pub-glass pub-images">
-            <img src="work_2/Screenshot%202025-12-16%20at%2010.05.16%E2%80%AFPM.png" alt="Figure 1" />
-            <img src="work_2/Screenshot%202026-03-27%20at%204.49.52%E2%80%AFPM.png" alt="Figure 2" />
-            <img src="work_2/Screenshot%202026-03-27%20at%204.50.48%E2%80%AFPM.png" alt="Figure 3" />
+          <div class="pub-glass pub-images pub-images-work2">
+            <img src="work_2/Screenshot%202026-03-27%20at%204.50.48%E2%80%AFPM.png" alt="Figure 3" class="pub-img-tall" />
+            <div class="pub-img-stack">
+              <img src="work_2/Screenshot%202025-12-16%20at%2010.05.16%E2%80%AFPM.png" alt="Figure 1" />
+              <img src="work_2/Screenshot%202026-03-27%20at%204.49.52%E2%80%AFPM.png" alt="Figure 2" />
+            </div>
           </div>
           <div class="pub-glass pub-desc">
             <p>Placeholder — publication 2 title, authors, journal, year, and a brief description of the work will go here.</p>
