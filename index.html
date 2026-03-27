@@ -415,6 +415,12 @@
       document.body.classList.toggle('menu-open');
     });
 
+    document.getElementById('menu-overlay').addEventListener('click', (e) => {
+      if (!e.target.closest('.menu-nav')) {
+        document.body.classList.remove('menu-open');
+      }
+    });
+
     // ── Joy Division canvas ─────────────────────────────────────────────────
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
