@@ -212,46 +212,244 @@
       pointer-events: all;
     }
 
-    /* ── Background section — circular blob gradients over live canvas ─────── */
+    /* ── Background section — diagonal cascade ─────────────────────────────── */
     #background-section {
-      background:
-        radial-gradient(circle 42vmin at calc(50% - 295px) 50%, rgba(139, 0, 0, 0.82) 0%, transparent 100%),
-        radial-gradient(circle 42vmin at calc(50% + 295px) 50%, rgba(0, 42, 92, 0.82) 0%, transparent 100%);
+      overflow-y: auto;
+      align-items: flex-start;
+      padding: 2.5rem 2rem 3rem;
     }
 
-    .bg-card {
+    /* ── Animated gas-diffusion blobs ───────────────────────────────────────── */
+    .bg-blobs {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .blob-group {
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
+
+    /* UChicago: logo upper-left (~30%, ~13%) */
+    .blob-group-uchicago { left: 30%; top: 13%; }
+
+    /* ARCH: logo center-left (~35%, ~36%) */
+    .blob-group-arch { left: 35%; top: 36%; }
+
+    /* UofT: logo lower-right (~62%, ~58%) */
+    .blob-group-utoronto { left: 62%; top: 58%; }
+
+    .blob {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      filter: blur(32px);
+      border-radius: 43% 57% 52% 48% / 55% 42% 58% 45%;
+    }
+
+    /* UChicago maroon blobs */
+    .blob-uchicago-1 {
+      width: 170px; height: 125px;
+      background: rgba(139, 0, 0, 0.60);
+      border-radius: 43% 57% 52% 48% / 55% 42% 58% 45%;
+      left: 0; top: 0;
+      animation: gasFloat1 8s ease-in-out infinite;
+    }
+    .blob-uchicago-2 {
+      width: 110px; height: 90px;
+      background: rgba(139, 0, 0, 0.38);
+      border-radius: 62% 38% 45% 55% / 42% 58% 42% 58%;
+      left: 30px; top: 35px;
+      animation: gasFloat2 11s ease-in-out infinite;
+      animation-delay: -3s;
+    }
+    .blob-uchicago-3 {
+      width: 75px; height: 60px;
+      background: rgba(160, 10, 10, 0.30);
+      border-radius: 55% 45% 60% 40% / 48% 55% 45% 52%;
+      left: -30px; top: -20px;
+      animation: gasFloat3 6s ease-in-out infinite;
+      animation-delay: -1.5s;
+    }
+
+    /* ARCH teal blobs */
+    .blob-arch-1 {
+      width: 150px; height: 115px;
+      background: rgba(8, 68, 44, 0.65);
+      border-radius: 50% 50% 58% 42% / 46% 54% 46% 54%;
+      left: 0; top: 0;
+      animation: gasFloat2 9s ease-in-out infinite;
+      animation-delay: -2s;
+    }
+    .blob-arch-2 {
+      width: 95px; height: 80px;
+      background: rgba(8, 68, 44, 0.40);
+      border-radius: 38% 62% 50% 50% / 58% 42% 58% 42%;
+      left: -25px; top: 30px;
+      animation: gasFloat1 12s ease-in-out infinite;
+      animation-delay: -5s;
+    }
+    .blob-arch-3 {
+      width: 65px; height: 55px;
+      background: rgba(12, 85, 55, 0.32);
+      border-radius: 65% 35% 44% 56% / 52% 48% 60% 40%;
+      left: 35px; top: -25px;
+      animation: gasFloat3 7s ease-in-out infinite;
+      animation-delay: -4s;
+    }
+
+    /* UofT blue blobs */
+    .blob-utoronto-1 {
+      width: 170px; height: 125px;
+      background: rgba(0, 42, 92, 0.62);
+      border-radius: 48% 52% 46% 54% / 52% 48% 55% 45%;
+      left: 0; top: 0;
+      animation: gasFloat3 10s ease-in-out infinite;
+      animation-delay: -1s;
+    }
+    .blob-utoronto-2 {
+      width: 110px; height: 88px;
+      background: rgba(0, 42, 92, 0.38);
+      border-radius: 55% 45% 62% 38% / 45% 55% 42% 58%;
+      left: 35px; top: -32px;
+      animation: gasFloat1 7s ease-in-out infinite;
+      animation-delay: -6s;
+    }
+    .blob-utoronto-3 {
+      width: 72px; height: 58px;
+      background: rgba(0, 28, 80, 0.28);
+      border-radius: 40% 60% 55% 45% / 58% 42% 50% 50%;
+      left: -32px; top: 28px;
+      animation: gasFloat2 13s ease-in-out infinite;
+      animation-delay: -3.5s;
+    }
+
+    @keyframes gasFloat1 {
+      0%   { transform: translate(-50%, -50%) translate(0px,   0px)  scale(1.00); }
+      20%  { transform: translate(-50%, -50%) translate(9px,  -8px)  scale(1.05); }
+      40%  { transform: translate(-50%, -50%) translate(-7px,  11px) scale(0.95); }
+      60%  { transform: translate(-50%, -50%) translate(11px,  5px)  scale(1.04); }
+      80%  { transform: translate(-50%, -50%) translate(-5px, -9px)  scale(0.97); }
+      100% { transform: translate(-50%, -50%) translate(0px,   0px)  scale(1.00); }
+    }
+    @keyframes gasFloat2 {
+      0%   { transform: translate(-50%, -50%) translate(0px,   0px)  scale(1.00); }
+      25%  { transform: translate(-50%, -50%) translate(-8px,  9px)  scale(1.04); }
+      50%  { transform: translate(-50%, -50%) translate(10px, -6px)  scale(0.96); }
+      75%  { transform: translate(-50%, -50%) translate(-6px, -10px) scale(1.06); }
+      100% { transform: translate(-50%, -50%) translate(0px,   0px)  scale(1.00); }
+    }
+    @keyframes gasFloat3 {
+      0%   { transform: translate(-50%, -50%) translate(0px,   0px)  scale(1.00); }
+      33%  { transform: translate(-50%, -50%) translate(12px, -4px)  scale(0.94); }
+      66%  { transform: translate(-50%, -50%) translate(-9px,  8px)  scale(1.07); }
+      100% { transform: translate(-50%, -50%) translate(0px,   0px)  scale(1.00); }
+    }
+
+    /* ── Timeline container ─────────────────────────────────────────────────── */
+    .bg-timeline {
+      width: min(700px, 92vw);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .bg-step { position: relative; }
+    .bg-step-arch     { margin-left: 11%; }
+    .bg-step-utoronto { margin-left: 22%; }
+
+    .bg-card-single {
+      width: clamp(260px, 60%, 420px);
       background: rgba(255, 255, 255, 0.06);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
       border: 1px solid rgba(255, 255, 255, 0.11);
-      border-radius: 20px;
+      border-radius: 16px;
       box-shadow: 0 8px 48px rgba(0,0,0,0.45);
       overflow: hidden;
-      width: min(820px, 90vw);
-      display: flex;
-      flex-direction: column;
     }
+
+    /* Curved connectors — CSS elbow technique */
+    .bg-curve-connector {
+      height: 52px;
+      position: relative;
+      color: rgba(255, 255, 255, 0.30);
+    }
+    :root:not(.dark) .bg-curve-connector { color: rgba(70, 50, 40, 0.38); }
+
+    .bg-curve-connector-line {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      border-top: 1.5px solid currentColor;
+      border-right: 1.5px solid currentColor;
+      border-top-right-radius: 28px;
+    }
+
+    /* connector 1: UChicago → ARCH (30% to 41%) */
+    .bg-connector-1 { left: 29%; width: 12%; }
+    /* connector 2: ARCH → UofT (41% to 52%) */
+    .bg-connector-2 { left: 40%; width: 12%; }
 
     .bg-entry {
       display: flex;
       align-items: stretch;
-      min-height: 190px;
-      position: relative;
+      min-height: 148px;
+    }
+
+    .bg-logo-area {
+      width: 110px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem 0.8rem;
+    }
+
+    .bg-logo-area.logo-top-left {
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 1rem 0.6rem 1.2rem 1rem;
+    }
+
+    .bg-logo-area img {
+      width: 85px;
+      height: auto;
+      object-fit: contain;
+      filter: brightness(1.1);
     }
 
     .bg-text {
       flex: 1;
-      padding: 2.4rem 2.4rem 2.4rem 2.8rem;
+      padding: 1.5rem 1.5rem 1.5rem 0.8rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
 
+    .bg-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: clamp(0.88rem, 1.35vw, 1.05rem);
+      color: rgba(255, 255, 255, 0.96);
+      font-weight: 500;
+      line-height: 1.4;
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.01em;
+    }
+
+    .bg-title-sub {
+      font-weight: 400;
+      font-size: 0.9em;
+      opacity: 0.75;
+    }
+
     .bg-text p {
       font-family: 'EB Garamond', Georgia, serif;
-      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-      color: rgba(255, 255, 255, 0.88);
-      line-height: 1.75;
+      font-size: clamp(0.85rem, 1.3vw, 1rem);
+      color: rgba(255, 255, 255, 0.83);
+      line-height: 1.7;
       font-weight: 400;
     }
 
@@ -267,41 +465,9 @@
       text-decoration-color: rgba(255, 255, 255, 0.88);
     }
 
-    .bg-logo-area {
-      width: 230px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      position: relative;
-    }
-
-    .bg-logo-area img {
-      width: 130px;
-      height: auto;
-      object-fit: contain;
-      position: relative;
-      z-index: 1;
-      filter: brightness(1.1);
-    }
-
-    /* Connector: centered line, light on dark */
-    .bg-connector {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 44px;
-      position: relative;
-    }
-
-    .bg-connector::before {
-      content: '';
-      display: block;
-      width: 2px;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.18);
-      border-radius: 2px;
+    .fellowship-badge {
+      font-style: italic;
+      color: rgba(255, 215, 155, 0.92);
     }
 
     /* ── Main content ──────────────────────────────────────────────────────── */
@@ -375,7 +541,8 @@
 
     .subtitle-secondary {
       font-size: clamp(0.9rem, 1.4vw, 1.2rem);
-      color: #e8e4dc;
+      color: var(--fg-muted);
+      transition: color var(--transition);
       letter-spacing: 0.02em;
     }
 
@@ -457,24 +624,81 @@
 
   <!-- Background section -->
   <div id="background-section" class="page-section">
-    <div class="bg-card">
-      <div class="bg-entry uchicago-entry">
-        <div class="bg-logo-area">
-          <img src="uchicago.png" alt="University of Chicago" />
-        </div>
-        <div class="bg-text">
-          <p>Completed my PhD in Computational Neuroscience in the <a href="https://www.kaufmanlab.org/" target="_blank" rel="noopener">Kaufman lab</a> at UChicago. My thesis focused on disentangling the structure of neural activity across the sensorimotor cortex.</p>
+
+    <!-- Animated gas-diffusion blobs pinned near logos -->
+    <div class="bg-blobs" aria-hidden="true">
+      <div class="blob-group blob-group-uchicago">
+        <div class="blob blob-uchicago-1"></div>
+        <div class="blob blob-uchicago-2"></div>
+        <div class="blob blob-uchicago-3"></div>
+      </div>
+      <div class="blob-group blob-group-arch">
+        <div class="blob blob-arch-1"></div>
+        <div class="blob blob-arch-2"></div>
+        <div class="blob blob-arch-3"></div>
+      </div>
+      <div class="blob-group blob-group-utoronto">
+        <div class="blob blob-utoronto-1"></div>
+        <div class="blob blob-utoronto-2"></div>
+        <div class="blob blob-utoronto-3"></div>
+      </div>
+    </div>
+
+    <div class="bg-timeline">
+
+      <!-- UChicago -->
+      <div class="bg-step bg-step-uchicago">
+        <div class="bg-card-single">
+          <div class="bg-entry">
+            <div class="bg-logo-area logo-top-left">
+              <img src="uchicago.png" alt="University of Chicago" />
+            </div>
+            <div class="bg-text">
+              <p>Completed my PhD in Computational Neuroscience in the <a href="https://www.kaufmanlab.org/" target="_blank" rel="noopener">Kaufman lab</a> at UChicago. My thesis focused on disentangling the structure of neural activity across the sensorimotor cortex. <span class="fellowship-badge">Recipient of the International Student Fellowship.</span></p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="bg-connector"></div>
-      <div class="bg-entry utoronto-entry">
-        <div class="bg-text">
-          <p>Completed my undergraduate studies at the University of Toronto, double majoring in Biology and Psychology.</p>
-        </div>
-        <div class="bg-logo-area">
-          <img src="utoronto.png" alt="University of Toronto" />
+
+      <!-- Curved connector: UChicago → ARCH -->
+      <div class="bg-curve-connector">
+        <div class="bg-curve-connector-line bg-connector-1"></div>
+      </div>
+
+      <!-- ARCH Venture Partners -->
+      <div class="bg-step bg-step-arch">
+        <div class="bg-card-single">
+          <div class="bg-entry">
+            <div class="bg-logo-area">
+              <img src="ARCH.png" alt="ARCH Venture Partners" />
+            </div>
+            <div class="bg-text">
+              <div class="bg-title">ARCH Venture Partners — Intern<br><span class="bg-title-sub">(Deep Tech &amp; Biotech Investing)</span></div>
+              <p>Interned at ARCH where I contributed to several white papers on the use of AI in drug discovery processes.</p>
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- Curved connector: ARCH → UofT -->
+      <div class="bg-curve-connector">
+        <div class="bg-curve-connector-line bg-connector-2"></div>
+      </div>
+
+      <!-- University of Toronto -->
+      <div class="bg-step bg-step-utoronto">
+        <div class="bg-card-single">
+          <div class="bg-entry">
+            <div class="bg-text">
+              <p>Completed my undergraduate studies at the University of Toronto, double majoring in Biology and Psychology.</p>
+            </div>
+            <div class="bg-logo-area">
+              <img src="utoronto.png" alt="University of Toronto" />
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
