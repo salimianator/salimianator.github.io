@@ -395,33 +395,30 @@
       document.body.classList.toggle('menu-open');
     });
 
-    // ── Action potential canvas ─────────────────────────────────────────────
+    // ── Joy Division canvas ─────────────────────────────────────────────────
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
 
-    const NUM_LINES = 38;
-    const SPEED = 0.004;
+    const NUM_LINES = 44;
     let time = 0;
     let W, H, lineSpacing, startY;
 
     function resize() {
       W = canvas.width = window.innerWidth;
       H = canvas.height = window.innerHeight;
-      const totalHeight = H * 0.72;
+      const totalHeight = H * 0.74;
       lineSpacing = totalHeight / (NUM_LINES - 1);
-      startY = H * 0.14;
+      startY = H * 0.13;
     }
 
     window.addEventListener('resize', resize);
     resize();
 
-    // Stable hash → [0,1)
     function hash(x, y) {
       const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
       return n - Math.floor(n);
     }
 
-    // Smooth value noise
     function noise(x, y) {
       const ix = Math.floor(x), iy = Math.floor(y);
       const fx = x - ix, fy = y - iy;
@@ -434,19 +431,19 @@
       return a + (b - a) * ux + (c - a) * uy + ((a - b - c + d) * ux * uy);
     }
 
-    // Action-potential template: sum of Gaussians, x in [0,1]
-    // Mimics: flat baseline → upward spike → deep trough → recovery hump → undershoot → baseline
-    function apTemplate(x) {
-      const spike    =  2.0 * Math.exp(-Math.pow((x - 0.36) * 22, 2));
-      const trough   = -2.6 * Math.exp(-Math.pow((x - 0.50) * 12, 2));
-      const hump     =  1.3 * Math.exp(-Math.pow((x - 0.65) *  9, 2));
-      const under    = -0.3 * Math.exp(-Math.pow((x - 0.77) * 16, 2));
-      return spike + trough + hump + under;
-    }
-
     function getFgColor() {
       return root.classList.contains('dark') ? '#e8e4dc' : '#1a1a1a';
     }
+
+    // Pre-compute stable per-line properties (seeded so they never change)
+    const lines = Array.from({ length: NUM_LINES }, (_, i) => ({
+      phaseX  : hash(i,  7) * 50,          // noise x-offset
+      phaseY  : hash(i, 13) * 50,          // noise y-offset
+      scrollSpd: 0.5 + hash(i, 31) * 1.0, // how fast noise scrolls (0.5–1.5)
+      freq    : 0.006 + hash(i, 17) * 0.016, // spatial sine frequency
+      sineSpd : 0.8  + hash(i, 61) * 2.2,  // temporal sine speed (0.8–3.0)
+      sinePhase: hash(i, 53) * Math.PI * 2, // sine start phase
+    }));
 
     function draw() {
       ctx.clearRect(0, 0, W, H);
@@ -455,39 +452,37 @@
       ctx.setLineDash([]);
 
       for (let i = 0; i < NUM_LINES; i++) {
-        const t = i / (NUM_LINES - 1);
+        const t = i / (NUM_LINES - 1);           // 0 = top row, 1 = bottom row
 
-        // Vertical bell-curve: middle rows of the stack are tallest
-        const vertEnv = Math.exp(-Math.pow((t - 0.5) * 2.8, 2));
+        // Vertical bell-curve: center rows get full amplitude, top/bottom flatten out
+        const vertEnv = Math.exp(-Math.pow((t - 0.5) * 3.2, 2));
 
-        // Each line breathes at its own pace with a small propagation delay through the stack
-        const lineDelay = (i / NUM_LINES) * 1.4;
-        const breathe   = 0.65 + 0.35 * Math.sin((time - lineDelay) * 0.55);
-
-        // Small per-line amplitude scatter so the bundle isn't perfectly uniform
-        const scatter = 0.88 + hash(i, 7) * 0.24;
-
-        const amp = lineSpacing * 9.5 * vertEnv * breathe * scatter;
-        const y0  = startY + i * lineSpacing;
-
-        // Tiny per-line noise seed so lines aren't pixel-identical
-        const nSeedX = hash(i, 13) * 30;
-        const nSeedY = hash(i, 17) * 30;
+        const maxAmp = lineSpacing * 7.0 * vertEnv;
+        const y0 = startY + i * lineSpacing;
+        const L = lines[i];
 
         ctx.beginPath();
         const steps = Math.ceil(W / 1.5);
+
         for (let s = 0; s <= steps; s++) {
           const px = (s / steps) * W;
-          const x  = px / W;
+          const xn = px / W;                     // 0..1 normalized
 
-          const tv = apTemplate(x);
+          // Horizontal Gaussian: activity peaks at center, dies to ~0 at edges
+          const horizEnv = Math.exp(-Math.pow((xn - 0.5) * 3.6, 2));
 
-          // Very small organic jitter so each line in the bundle differs slightly
-          const nx = s * 0.018 + nSeedX + time * 0.2;
-          const ny = i * 0.35  + nSeedY + time * 0.1;
-          const jitter = (noise(nx, ny) - 0.5) * 0.10;
+          // Noise: low weight — just organic texture, not the main shape driver
+          const nx = s * L.freq * 0.7 + L.phaseX + time * L.scrollSpd;
+          const ny = i * 0.4       + L.phaseY + time * L.scrollSpd * 0.4;
+          const noiseVal = (noise(nx, ny) - 0.5) * 0.28
+                         + (noise(nx * 2.1, ny * 2.1) - 0.5) * 0.12;
 
-          const displacement = (tv + jitter) * amp;
+          // Sine: main structural wave, fully independent per line
+          const rawSine  = Math.sin(px * L.freq + time * L.sineSpd + L.sinePhase);
+          // Sharpen: compress valleys, spike the peaks
+          const sineVal  = Math.sign(rawSine) * Math.pow(Math.abs(rawSine), 0.55) * 0.70;
+
+          const displacement = (noiseVal + sineVal) * maxAmp * horizEnv;
           const py = y0 - displacement;
 
           s === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
@@ -495,7 +490,7 @@
         ctx.stroke();
       }
 
-      time += SPEED;
+      time += 0.003;
       requestAnimationFrame(draw);
     }
 
