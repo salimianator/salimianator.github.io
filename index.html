@@ -456,12 +456,13 @@
         const linePhaseY = hash(i, 13) * 40.0;
         const lineSpeed  = 0.6 + hash(i, 31) * 0.8;   // 0.6–1.4× speed multiplier
         const lineSineOff = hash(i, 53) * Math.PI * 2; // unique sine phase
+        const lineFreq   = 0.007 + hash(i, 17) * 0.018; // unique frequency per line
 
         ctx.beginPath();
         const steps = Math.ceil(W / 2);
         for (let s = 0; s <= steps; s++) {
           const px = (s / steps) * W;
-          const nx = s * NOISE_SCALE + linePhaseX + time * lineSpeed;
+          const nx = s * lineFreq + linePhaseX + time * lineSpeed;
           const ny = i * 0.55 + linePhaseY + time * (lineSpeed * 0.5);
 
           const n1 = noise(nx, ny) - 0.5;
