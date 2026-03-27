@@ -212,12 +212,11 @@
       pointer-events: all;
     }
 
-    /* ── Background section — dark atmospheric blobs ──────────────────────── */
+    /* ── Background section — circular blob gradients over live canvas ─────── */
     #background-section {
       background:
-        radial-gradient(ellipse 60% 80% at 18% 40%, rgba(139, 0, 0, 0.52) 0%, transparent 68%),
-        radial-gradient(ellipse 60% 80% at 82% 60%, rgba(0, 42, 92, 0.52) 0%, transparent 68%),
-        #07070f;
+        radial-gradient(circle 32vmin at 22% 42%, rgba(139, 0, 0, 0.78) 0%, transparent 100%),
+        radial-gradient(circle 32vmin at 78% 58%, rgba(0, 42, 92, 0.78) 0%, transparent 100%);
     }
 
     .bg-card {
@@ -460,11 +459,11 @@
   <div id="background-section" class="page-section">
     <div class="bg-card">
       <div class="bg-entry uchicago-entry">
-        <div class="bg-text">
-          <p>Completed my PhD in Computational Neuroscience in the <a href="https://www.kaufmanlab.org/" target="_blank" rel="noopener">Kaufman lab</a> at UChicago. My thesis focused on disentangling the structure of neural activity across the sensorimotor cortex.</p>
-        </div>
         <div class="bg-logo-area">
           <img src="uchicago.png" alt="University of Chicago" />
+        </div>
+        <div class="bg-text">
+          <p>Completed my PhD in Computational Neuroscience in the <a href="https://www.kaufmanlab.org/" target="_blank" rel="noopener">Kaufman lab</a> at UChicago. My thesis focused on disentangling the structure of neural activity across the sensorimotor cortex.</p>
         </div>
       </div>
       <div class="bg-connector"></div>
