@@ -186,8 +186,9 @@
       top: -0.1em;
     }
 
-    /* Hide main content while menu is open */
-    body.menu-open .content {
+    /* Hide main content and any active section while menu is open */
+    body.menu-open .content,
+    body.menu-open .page-section {
       opacity: 0;
       transition: opacity 0.25s ease;
     }
