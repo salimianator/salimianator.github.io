@@ -400,15 +400,17 @@
     const ctx = canvas.getContext('2d');
 
     const NUM_LINES = 44;
+    const NOISE_SCALE = 0.014;
+    const SPEED = 0.0022;
     let time = 0;
     let W, H, lineSpacing, startY;
 
     function resize() {
       W = canvas.width = window.innerWidth;
       H = canvas.height = window.innerHeight;
-      const totalHeight = H * 0.74;
+      const totalHeight = H * 0.76;
       lineSpacing = totalHeight / (NUM_LINES - 1);
-      startY = H * 0.13;
+      startY = H * 0.12;
     }
 
     window.addEventListener('resize', resize);
@@ -435,54 +437,31 @@
       return root.classList.contains('dark') ? '#e8e4dc' : '#1a1a1a';
     }
 
-    // Pre-compute stable per-line properties (seeded so they never change)
-    const lines = Array.from({ length: NUM_LINES }, (_, i) => ({
-      phaseX  : hash(i,  7) * 50,          // noise x-offset
-      phaseY  : hash(i, 13) * 50,          // noise y-offset
-      scrollSpd: 0.5 + hash(i, 31) * 1.0, // how fast noise scrolls (0.5–1.5)
-      freq    : 0.006 + hash(i, 17) * 0.016, // spatial sine frequency
-      sineSpd : 0.8  + hash(i, 61) * 2.2,  // temporal sine speed (0.8–3.0)
-      sinePhase: hash(i, 53) * Math.PI * 2, // sine start phase
-    }));
-
     function draw() {
       ctx.clearRect(0, 0, W, H);
       ctx.strokeStyle = getFgColor();
-      ctx.lineWidth = 1.3;
+      ctx.lineWidth = 1.4;
       ctx.setLineDash([]);
 
       for (let i = 0; i < NUM_LINES; i++) {
-        const t = i / (NUM_LINES - 1);           // 0 = top row, 1 = bottom row
+        const t = i / (NUM_LINES - 1);
+        const envelope = Math.exp(-Math.pow((t - 0.5) * 2.6, 2));
+        const baseAmp = lineSpacing * 6.0 * envelope;
 
-        // Vertical bell-curve: center rows get full amplitude, top/bottom flatten out
-        const vertEnv = Math.exp(-Math.pow((t - 0.5) * 3.2, 2));
-
-        const maxAmp = lineSpacing * 7.0 * vertEnv;
         const y0 = startY + i * lineSpacing;
-        const L = lines[i];
 
         ctx.beginPath();
-        const steps = Math.ceil(W / 1.5);
-
+        const steps = Math.ceil(W / 2);
         for (let s = 0; s <= steps; s++) {
           const px = (s / steps) * W;
-          const xn = px / W;                     // 0..1 normalized
+          const nx = s * NOISE_SCALE + time * 0.7;
+          const ny = i * 0.25 + time;
 
-          // Horizontal Gaussian: activity peaks at center, dies to ~0 at edges
-          const horizEnv = Math.exp(-Math.pow((xn - 0.5) * 3.6, 2));
+          const n1 = noise(nx, ny) - 0.5;
+          const n2 = (noise(nx * 2.3, ny * 2.3) - 0.5) * 0.45;
+          const sine = Math.sin(px * 0.016 + time * 2.5 + i * 0.4) * 0.3;
 
-          // Noise: low weight — just organic texture, not the main shape driver
-          const nx = s * L.freq * 0.7 + L.phaseX + time * L.scrollSpd;
-          const ny = i * 0.4       + L.phaseY + time * L.scrollSpd * 0.4;
-          const noiseVal = (noise(nx, ny) - 0.5) * 0.28
-                         + (noise(nx * 2.1, ny * 2.1) - 0.5) * 0.12;
-
-          // Sine: main structural wave, fully independent per line
-          const rawSine  = Math.sin(px * L.freq + time * L.sineSpd + L.sinePhase);
-          // Sharpen: compress valleys, spike the peaks
-          const sineVal  = Math.sign(rawSine) * Math.pow(Math.abs(rawSine), 0.55) * 0.70;
-
-          const displacement = (noiseVal + sineVal) * maxAmp * horizEnv;
+          const displacement = (n1 + n2 + sine) * baseAmp;
           const py = y0 - displacement;
 
           s === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
@@ -490,7 +469,7 @@
         ctx.stroke();
       }
 
-      time += 0.003;
+      time += SPEED;
       requestAnimationFrame(draw);
     }
 
