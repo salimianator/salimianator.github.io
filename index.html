@@ -222,9 +222,43 @@
     /* Row of three cards */
     .bg-row {
       display: flex;
-      gap: 1.4rem;
+      gap: 0;
       width: min(960px, 92vw);
       align-items: stretch;
+    }
+
+    /* Horizontal date connectors between cards */
+    .bg-h-connector {
+      flex-shrink: 0;
+      width: 64px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 50px;
+      gap: 3px;
+    }
+
+    /* Horizontal line running through logo-area center */
+    .bg-h-connector::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      top: 70px;
+      height: 1px;
+      background: rgba(15, 10, 5, 0.18);
+    }
+
+    .h-date {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 0.70rem;
+      color: rgba(15, 10, 5, 0.48);
+      letter-spacing: 0.04em;
+      text-align: center;
+      line-height: 1.35;
+      position: relative;
+      z-index: 1;
     }
 
     .bg-card-single {
@@ -276,69 +310,69 @@
       filter: blur(20px);
     }
 
-    /* UChicago — maroon */
+    /* UChicago — soft rose-maroon */
     .uchicago-card .logo-blob-a {
       width: 200px; height: 170px;
-      background: rgba(139, 0, 0, 0.82);
+      background: rgba(180, 60, 60, 0.52);
       border-radius: 43% 57% 52% 48% / 55% 42% 58% 45%;
       animation: gasFloat1 8s ease-in-out infinite;
     }
     .uchicago-card .logo-blob-b {
       width: 130px; height: 110px;
-      background: rgba(110, 0, 0, 0.60);
+      background: rgba(160, 50, 50, 0.36);
       border-radius: 62% 38% 46% 54% / 48% 55% 45% 52%;
       animation: gasFloat2 11s ease-in-out infinite;
       animation-delay: -3s;
     }
     .uchicago-card .logo-blob-c {
       width: 80px; height: 68px;
-      background: rgba(160, 10, 10, 0.42);
+      background: rgba(200, 80, 80, 0.26);
       border-radius: 55% 45% 60% 40% / 50% 55% 45% 50%;
       animation: gasFloat3 6s ease-in-out infinite;
       animation-delay: -1.5s;
     }
 
-    /* ARCH — teal/forest */
+    /* ARCH — soft sage-teal */
     .arch-card .logo-blob-a {
       width: 200px; height: 170px;
-      background: rgba(8, 68, 44, 0.85);
+      background: rgba(40, 120, 85, 0.52);
       border-radius: 50% 50% 58% 42% / 46% 54% 46% 54%;
       animation: gasFloat2 9s ease-in-out infinite;
       animation-delay: -2s;
     }
     .arch-card .logo-blob-b {
       width: 130px; height: 110px;
-      background: rgba(8, 68, 44, 0.62);
+      background: rgba(40, 120, 85, 0.36);
       border-radius: 38% 62% 50% 50% / 58% 42% 58% 42%;
       animation: gasFloat1 12s ease-in-out infinite;
       animation-delay: -5s;
     }
     .arch-card .logo-blob-c {
       width: 80px; height: 68px;
-      background: rgba(12, 85, 55, 0.45);
+      background: rgba(60, 140, 100, 0.26);
       border-radius: 65% 35% 44% 56% / 52% 48% 60% 40%;
       animation: gasFloat3 7s ease-in-out infinite;
       animation-delay: -4s;
     }
 
-    /* UofT — navy */
+    /* UofT — soft periwinkle-blue */
     .utoronto-card .logo-blob-a {
       width: 200px; height: 170px;
-      background: rgba(0, 42, 92, 0.84);
+      background: rgba(40, 90, 160, 0.52);
       border-radius: 48% 52% 46% 54% / 52% 48% 55% 45%;
       animation: gasFloat3 10s ease-in-out infinite;
       animation-delay: -1s;
     }
     .utoronto-card .logo-blob-b {
       width: 130px; height: 110px;
-      background: rgba(0, 42, 92, 0.60);
+      background: rgba(40, 90, 160, 0.36);
       border-radius: 55% 45% 62% 38% / 45% 55% 42% 58%;
       animation: gasFloat1 7s ease-in-out infinite;
       animation-delay: -6s;
     }
     .utoronto-card .logo-blob-c {
       width: 80px; height: 68px;
-      background: rgba(0, 28, 80, 0.44);
+      background: rgba(60, 110, 180, 0.26);
       border-radius: 40% 60% 55% 45% / 58% 42% 50% 50%;
       animation: gasFloat2 13s ease-in-out infinite;
       animation-delay: -3.5s;
@@ -545,6 +579,7 @@
       /* Stack cards vertically on mobile */
       .bg-row { flex-direction: column; }
       .bg-card-single { width: 100%; }
+      .bg-h-connector { display: none; }
     }
   </style>
 </head>
@@ -597,6 +632,12 @@
         </div>
       </div>
 
+      <!-- Connector: UChicago → ARCH -->
+      <div class="bg-h-connector">
+        <span class="h-date">Oct 2025</span>
+        <span class="h-date">May 2024</span>
+      </div>
+
       <!-- ARCH Venture Partners -->
       <div class="bg-card-single arch-card">
         <div class="bg-logo-area">
@@ -611,6 +652,11 @@
           <div class="bg-title">ARCH Venture Partners — Intern<br><span class="bg-title-sub">(Deep Tech &amp; Biotech Investing)</span></div>
           <p>Interned at ARCH where I contributed to several white papers on the use of AI in drug discovery processes.</p>
         </div>
+      </div>
+
+      <!-- Connector: ARCH → UofT -->
+      <div class="bg-h-connector">
+        <span class="h-date">Jul 2016</span>
       </div>
 
       <!-- University of Toronto -->
