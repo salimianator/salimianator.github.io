@@ -125,7 +125,9 @@
     #menu-overlay {
       position: fixed;
       inset: 0;
-      background-color: var(--bg);
+      background-color: color-mix(in srgb, var(--bg) 75%, transparent);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -300,10 +302,10 @@
   <!-- Menu overlay -->
   <div id="menu-overlay">
     <ul class="menu-nav">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Background</a></li>
       <li><a href="#">Research</a></li>
-      <li><a href="#">Publications</a></li>
-      <li><a href="#">CV</a></li>
-      <li><a href="mailto:sohrabsalimian@gmail.com">Contact</a></li>
+      <li><a href="#">Current Projects</a></li>
     </ul>
   </div>
 
