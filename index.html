@@ -475,6 +475,8 @@
       color: rgba(15, 10, 5, 0.88);
       letter-spacing: 0.08em;
       margin: 0 0 0.25rem;
+      width: 100%;
+      text-align: center;
     }
 
     .pub-row {
@@ -519,23 +521,37 @@
       border-radius: 8px;
     }
 
+    /* work_1: fixed 600px container so both images are identical height */
+    .pub-images-large {
+      height: 600px;
+      align-items: stretch;
+    }
+
     .pub-images-large img {
-      max-height: 400px;
+      flex: 1;
+      min-width: 0;
+      height: 100%;
+      width: 0;
+      max-height: none;
+      object-fit: contain;
+      border-radius: 8px;
     }
 
     /* work_2: tall image left, two square images stacked right */
     .pub-images-work2 {
       align-items: stretch;
-      height: 400px;
+      height: 600px;
     }
 
     .pub-images-work2 img {
-      max-height: none; /* override 200px default */
+      max-height: none;
     }
 
+    /* tall image and stack share equal widths (flex: 1 each = 50/50) */
     .pub-img-tall {
-      flex: none;
-      width: auto;
+      flex: 1;
+      min-width: 0;
+      width: 0;
       height: 100%;
       object-fit: contain;
       border-radius: 8px;
