@@ -119,7 +119,7 @@
       font-style: normal;
       font-size: clamp(1.1rem, 2vw, 1.7rem);
       font-weight: 400;
-      color: var(--fg-muted);
+      color: var(--fg);
       transition: color var(--transition);
       letter-spacing: 0.08em;
     }
@@ -195,9 +195,8 @@
     </div>
     <div class="divider"></div>
     <div class="subtitle">
-      <div class="subtitle-primary">Neuroscientist.</div>
-      <div class="subtitle-secondary">I build models to learn representations</div>
-      <div class="subtitle-secondary">in complex datasets.</div>
+      <div class="subtitle-primary">Neuroscientist. <span class="subtitle-secondary">I build models that learn representations</span></div>
+      <div class="subtitle-secondary">in multimodal datasets.</div>
     </div>
   </div>
 
@@ -286,7 +285,7 @@
         const t = i / (NUM_LINES - 1);
         // Sharp bell-curve: amplitude peaks strongly in the middle
         const envelope = Math.exp(-Math.pow((t - 0.5) * 2.6, 2));
-        const baseAmp = lineSpacing * 7.5 * envelope;  // large range
+        const baseAmp = lineSpacing * 6.0 * envelope;  // -20% range
 
         const y0 = startY + i * lineSpacing;
 
