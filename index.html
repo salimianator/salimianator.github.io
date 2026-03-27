@@ -6,7 +6,7 @@
   <title>Sohrab Salimian</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400;1,500&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -37,7 +37,7 @@
       background-color: var(--bg);
       color: var(--fg);
       transition: background-color var(--transition), color var(--transition);
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: 'EB Garamond', Georgia, serif;
       position: relative;
     }
 
@@ -48,17 +48,17 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      opacity: 0.18;
+      opacity: 0.22;
       transition: opacity var(--transition);
     }
 
     /* Corner elements */
     .corner {
       position: fixed;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.7rem;
-      font-weight: 300;
-      letter-spacing: 0.04em;
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
       color: var(--fg-muted);
       transition: color var(--transition);
     }
@@ -84,18 +84,20 @@
       right: 2rem;
     }
 
-    /* Main content */
+    /* Main content — horizontally centered */
     .content {
       position: fixed;
       top: 50%;
-      left: 7vw;
-      transform: translateY(-50%);
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
     }
 
     .name-line {
       display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.4em;
       opacity: 0;
       transform: translateY(18px);
       animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
@@ -103,7 +105,7 @@
 
     .name {
       font-family: 'EB Garamond', Georgia, serif;
-      font-style: italic;
+      font-style: normal;
       font-size: clamp(3.2rem, 6.5vw, 6rem);
       font-weight: 400;
       line-height: 1;
@@ -113,48 +115,48 @@
     }
 
     .phd-tag {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: clamp(0.55rem, 1vw, 0.75rem);
-      font-weight: 300;
+      font-family: 'EB Garamond', Georgia, serif;
+      font-style: normal;
+      font-size: clamp(1.1rem, 2vw, 1.7rem);
+      font-weight: 400;
       color: var(--fg-muted);
       transition: color var(--transition);
-      margin-top: 0.3em;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.08em;
     }
 
     .divider {
-      width: clamp(200px, 35vw, 480px);
+      width: clamp(200px, 38vw, 520px);
       height: 1px;
       background-color: var(--fg-muted);
       transition: background-color var(--transition);
-      margin: 1.1rem 0 1.0rem 0;
+      margin: 1.1rem auto 1.0rem auto;
       opacity: 0;
       transform: scaleX(0.4);
-      transform-origin: left;
+      transform-origin: center;
       animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.65s forwards;
     }
 
     .subtitle {
-      font-family: 'IBM Plex Mono', monospace;
-      font-weight: 300;
-      line-height: 1.75;
+      font-family: 'EB Garamond', Georgia, serif;
+      font-weight: 400;
+      line-height: 1.65;
       opacity: 0;
       transform: translateY(14px);
       animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards;
+      text-align: center;
     }
 
     .subtitle-primary {
-      font-size: clamp(0.8rem, 1.35vw, 1.1rem);
+      font-size: clamp(1rem, 1.6vw, 1.35rem);
       color: var(--fg);
       transition: color var(--transition);
-      letter-spacing: 0.01em;
+      letter-spacing: 0.02em;
     }
 
     .subtitle-secondary {
-      font-size: clamp(0.75rem, 1.2vw, 1rem);
-      color: var(--fg-muted);
-      transition: color var(--transition);
-      letter-spacing: 0.01em;
+      font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+      color: #e8e4dc;
+      letter-spacing: 0.02em;
     }
 
     @keyframes fadeUp {
@@ -189,7 +191,7 @@
   <div class="content">
     <div class="name-line">
       <span class="name">Sohrab Salimian</span>
-      <sup class="phd-tag">Ph.D</sup>
+      <span class="phd-tag">Ph.D</span>
     </div>
     <div class="divider"></div>
     <div class="subtitle">
@@ -217,7 +219,6 @@
     }
 
     applyMode();
-    // Re-check every minute (no need more often)
     setInterval(applyMode, 60_000);
 
     // ── Live clock ──────────────────────────────────────────────────────────
@@ -232,34 +233,32 @@
     tick();
     setInterval(tick, 1000);
 
-    // ── Joy Division canvas ─────────────────────────────────────────────────
+    // ── Joy Division canvas — dotted, large-range, dynamic ─────────────────
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
 
     const NUM_LINES = 44;
-    const NOISE_SCALE = 0.012;
-    const SPEED = 0.00055;
+    const NOISE_SCALE = 0.014;
+    const SPEED = 0.0022;          // faster animation
     let time = 0;
     let W, H, lineSpacing, startY;
 
     function resize() {
       W = canvas.width = window.innerWidth;
       H = canvas.height = window.innerHeight;
-      const totalHeight = H * 0.72;
+      const totalHeight = H * 0.76;
       lineSpacing = totalHeight / (NUM_LINES - 1);
-      startY = H * 0.14;
+      startY = H * 0.12;
     }
 
     window.addEventListener('resize', resize);
     resize();
 
-    // Simple seeded pseudo-random for stable noise
     function hash(x, y) {
       const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
       return n - Math.floor(n);
     }
 
-    // Smooth value noise
     function noise(x, y) {
       const ix = Math.floor(x), iy = Math.floor(y);
       const fx = x - ix, fy = y - iy;
@@ -280,13 +279,14 @@
       ctx.clearRect(0, 0, W, H);
       const color = getFgColor();
       ctx.strokeStyle = color;
-      ctx.lineWidth = 1.2;
+      ctx.lineWidth = 1.4;
+      ctx.setLineDash([2, 7]);     // dotted lines: 2px dot, 7px gap
 
       for (let i = 0; i < NUM_LINES; i++) {
-        const t = i / (NUM_LINES - 1); // 0..1
-        // Bell-curve envelope: amplitude peaks in the middle of the stack
-        const envelope = Math.exp(-Math.pow((t - 0.5) * 3.4, 2));
-        const baseAmp = lineSpacing * 2.8 * envelope;
+        const t = i / (NUM_LINES - 1);
+        // Sharp bell-curve: amplitude peaks strongly in the middle
+        const envelope = Math.exp(-Math.pow((t - 0.5) * 2.6, 2));
+        const baseAmp = lineSpacing * 7.5 * envelope;  // large range
 
         const y0 = startY + i * lineSpacing;
 
@@ -294,14 +294,13 @@
         const steps = Math.ceil(W / 2);
         for (let s = 0; s <= steps; s++) {
           const px = (s / steps) * W;
-          const nx = s * NOISE_SCALE + time * 0.6;
-          const ny = i * 0.22 + time;
+          const nx = s * NOISE_SCALE + time * 0.7;
+          const ny = i * 0.25 + time;
 
-          // Combine two noise octaves
           const n1 = noise(nx, ny) - 0.5;
-          const n2 = (noise(nx * 2.1, ny * 2.1) - 0.5) * 0.4;
-          // Also add a subtle sine component
-          const sine = Math.sin(px * 0.018 + time * 1.8 + i * 0.35) * 0.15;
+          const n2 = (noise(nx * 2.3, ny * 2.3) - 0.5) * 0.45;
+          // stronger sine component for drama
+          const sine = Math.sin(px * 0.016 + time * 2.5 + i * 0.4) * 0.3;
 
           const displacement = (n1 + n2 + sine) * baseAmp;
           const py = y0 - displacement;
