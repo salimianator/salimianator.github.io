@@ -521,20 +521,38 @@
       border-radius: 8px;
     }
 
-    /* work_1: fixed 600px container so both images are identical height */
+    /* work_1: top row (fig4 + fig6) + bottom row (fig2), 600px tall */
     .pub-images-large {
       height: 600px;
+      flex-direction: column;
       align-items: stretch;
     }
 
     .pub-images-large img {
+      max-height: none;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .pub-img-top-row {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: row;
+      gap: 0.75rem;
+    }
+
+    .pub-img-top-row img {
       flex: 1;
       min-width: 0;
       height: 100%;
       width: 0;
-      max-height: none;
-      object-fit: contain;
-      border-radius: 8px;
+    }
+
+    .pub-img-bottom {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
     }
 
     /* work_2: tall image left, two square images stacked right */
@@ -840,8 +858,11 @@
         <!-- Left column: work_1 -->
         <div class="pub-col">
           <div class="pub-glass pub-images pub-images-large">
-            <img src="work_1/elife-106270-fig4-v1.jpg" alt="Figure 4" />
-            <img src="work_1/elife-106270-fig6-v1.jpg" alt="Figure 6" />
+            <div class="pub-img-top-row">
+              <img src="work_1/elife-106270-fig4-v1.jpg" alt="Figure 4" />
+              <img src="work_1/elife-106270-fig6-v1.jpg" alt="Figure 6" />
+            </div>
+            <img src="work_1/elife-106270-fig2-v1.jpg" alt="Figure 2" class="pub-img-bottom" />
           </div>
           <div class="pub-glass pub-desc">
             <p>Placeholder — publication 1 title, authors, journal, year, and a brief description of the work will go here.</p>
