@@ -590,6 +590,54 @@
         transform: scaleX(1);
       }
     }
+
+    /* ── Mobile responsive ─────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      /* Hide overlapping corner element */
+      #location-top { display: none; }
+
+      /* Hide site URL on very small screens to reduce clutter */
+      #site-url { display: none; }
+
+      /* Collapse cascade — stack cards vertically with no indent */
+      .bg-step-arch     { margin-left: 0; }
+      .bg-step-utoronto { margin-left: 0; }
+
+      /* Cards fill the timeline width */
+      .bg-card-single { width: 100%; }
+
+      /* Stack logo above text on narrow cards */
+      .bg-entry {
+        flex-direction: column;
+        min-height: unset;
+      }
+
+      .bg-logo-area,
+      .bg-logo-area.logo-top-left {
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 1.2rem 1.4rem 0.5rem;
+      }
+
+      /* UofT has logo on right — pull it to the top on mobile */
+      .bg-step-utoronto .bg-logo-area { order: -1; }
+
+      .bg-text {
+        padding: 0.5rem 1.4rem 1.4rem;
+      }
+
+      /* Connectors: keep them left-aligned since cascade is now straight */
+      .bg-curve-connector { height: 40px; }
+      .bg-connector-1 { left: 50px; width: 36px; }
+      .bg-connector-2 { left: 50px; width: 36px; }
+
+      /* Blob positions shift for vertical-stack mobile layout */
+      .blob-group-uchicago { left: 18%; top:  8%; }
+      .blob-group-arch     { left: 18%; top: 37%; }
+      .blob-group-utoronto { left: 18%; top: 68%; }
+    }
   </style>
 </head>
 <body>
