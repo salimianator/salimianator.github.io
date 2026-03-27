@@ -446,30 +446,42 @@
 
       for (let i = 0; i < NUM_LINES; i++) {
         const t = i / (NUM_LINES - 1);
-        const envelope = Math.exp(-Math.pow((t - 0.5) * 2.6, 2));
-        const baseAmp = lineSpacing * 6.0 * envelope;
+
+        // Vertical envelope: rows in the middle of the stack are tallest
+        const vertEnv = Math.exp(-Math.pow((t - 0.5) * 2.6, 2));
+        const baseAmp = lineSpacing * 6.0 * vertEnv;
 
         const y0 = startY + i * lineSpacing;
 
-        // stable per-line random offsets so each line has its own trajectory
-        const linePhaseX = hash(i, 7)  * 40.0;
-        const linePhaseY = hash(i, 13) * 40.0;
-        const lineSpeed  = 0.6 + hash(i, 31) * 0.8;   // 0.6–1.4× speed multiplier
-        const lineSineOff = hash(i, 53) * Math.PI * 2; // unique sine phase
-        const lineFreq   = 0.007 + hash(i, 17) * 0.018; // unique frequency per line
+        // Stable per-line randoms — computed once outside the point loop
+        const linePhaseX  = hash(i, 7)  * 40.0;
+        const linePhaseY  = hash(i, 13) * 40.0;
+        const lineSpeed   = 0.6 + hash(i, 31) * 0.8;    // noise scroll speed
+        const lineSineOff = hash(i, 53) * Math.PI * 2;  // sine start phase
+        const lineFreq    = 0.007 + hash(i, 17) * 0.018; // spatial frequency
+        const lineSineSpd = 1.2 + hash(i, 61) * 3.0;    // sine temporal speed (1.2–4.2×)
 
         ctx.beginPath();
         const steps = Math.ceil(W / 2);
         for (let s = 0; s <= steps; s++) {
           const px = (s / steps) * W;
+
+          // Horizontal envelope: energy concentrates toward center-x (Unknown Pleasures style)
+          const cx = (px / W - 0.5) * 2;           // -1 … +1
+          const horizEnv = Math.exp(-cx * cx * 1.6); // peaks at center, fades at edges
+
           const nx = s * lineFreq + linePhaseX + time * lineSpeed;
           const ny = i * 0.55 + linePhaseY + time * (lineSpeed * 0.5);
 
           const n1 = noise(nx, ny) - 0.5;
           const n2 = (noise(nx * 2.3, ny * 2.3) - 0.5) * 0.45;
-          const sine = Math.sin(px * 0.016 + time * 2.5 + lineSineOff) * 0.3;
 
-          const displacement = (n1 + n2 + sine) * baseAmp;
+          // Raw sine with per-line temporal speed
+          const rawSine = Math.sin(px * 0.016 + time * lineSineSpd + lineSineOff);
+          // Sharpen peaks: raise to power, keep sign — spiky rather than rounded
+          const sine = Math.sign(rawSine) * Math.pow(Math.abs(rawSine), 0.45) * 0.35;
+
+          const displacement = (n1 + n2 + sine) * baseAmp * horizEnv;
           const py = y0 - displacement;
 
           s === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
