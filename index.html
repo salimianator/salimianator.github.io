@@ -518,7 +518,7 @@
       max-height: 200px;
       width: 100%;
       object-fit: contain;
-      border-radius: 8px;
+      border-radius: 16px;
     }
 
     /* work_1: top row (fig4 + fig6) + bottom row (fig2), 600px tall */
@@ -530,29 +530,32 @@
 
     .pub-images-large img {
       max-height: none;
-      object-fit: contain;
-      border-radius: 8px;
+      border-radius: 16px;
     }
 
+    /* Top pair: both images rendered at identical height (row height),
+       natural width — overflow clipped so they don't burst the card */
     .pub-img-top-row {
       flex: 1;
       min-height: 0;
       display: flex;
       flex-direction: row;
       gap: 0.75rem;
+      overflow: hidden;
     }
 
     .pub-img-top-row img {
-      flex: 1;
-      min-width: 0;
+      flex: none;
       height: 100%;
-      width: 0;
+      width: auto;
     }
 
+    /* Bottom image: spans the full card width = combined width of top pair */
     .pub-img-bottom {
       flex: 1;
       min-height: 0;
       width: 100%;
+      object-fit: contain;
     }
 
     /* work_2: tall image left, two square images stacked right */
@@ -565,14 +568,13 @@
       max-height: none;
     }
 
-    /* tall image and stack share equal widths (flex: 1 each = 50/50) */
+    /* Tall image: renders at full container height with natural width —
+       same visual height as the stacked pair on the right */
     .pub-img-tall {
-      flex: 1;
-      min-width: 0;
-      width: 0;
+      flex: none;
       height: 100%;
-      object-fit: contain;
-      border-radius: 8px;
+      width: auto;
+      border-radius: 16px;
     }
 
     .pub-img-stack {
@@ -588,7 +590,7 @@
       min-height: 0;
       width: 100%;
       object-fit: contain;
-      border-radius: 8px;
+      border-radius: 16px;
     }
 
     .pub-desc p {
