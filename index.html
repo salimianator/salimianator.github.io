@@ -680,12 +680,25 @@
       width: 100%;
     }
 
-    /* work_1 bottom (fig2) and work_2 stack bottom: aspect-ratio mismatch
-       is too large for cover — use contain so full content is visible.
-       The wrapper's overflow:hidden still clips rounded corners cleanly.  */
+    /* work_1 bottom (fig2) and work_2 stack-bottom: aspect-ratio mismatch
+       is too large for cover. Fix: size the img to its natural ratio
+       (height:100% + width:auto), then border-radius on the img itself
+       clips the actual image corners (not just transparent wrapper air). */
+    div.pub-img-bottom,
+    .pub-img-stack .img-clip:last-child {
+      align-items: center;
+      justify-content: center;
+    }
+
     div.pub-img-bottom > img,
     .pub-img-stack .img-clip:last-child img {
-      object-fit: contain;
+      height: 100%;
+      width: auto;
+      flex: none;
+      min-width: 0;
+      min-height: 0;
+      object-fit: unset;
+      border-radius: 16px;
     }
 
     .pub-desc p {
