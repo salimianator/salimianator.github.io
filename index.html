@@ -613,6 +613,64 @@
       border-radius: 16px;
     }
 
+    /* ── Per-image soft-corner clip wrappers ────────────────────────── */
+    /* Each image is wrapped in a div.img-clip (or uses .pub-img-bottom /
+       .pub-img-tall as a wrapper div) so overflow:hidden clips pixels   */
+
+    /* Generic clip wrapper — used inside .pub-img-top-row and .pub-img-stack */
+    .img-clip {
+      overflow: hidden;
+      border-radius: 16px;
+    }
+
+    /* Inner imgs always fill their clip wrapper */
+    .img-clip img,
+    .pub-img-bottom > img,
+    .pub-img-tall > img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      object-fit: contain;
+      border-radius: 0;
+    }
+
+    /* top-row clip: flex: none so each image keeps its natural aspect ratio */
+    .pub-img-top-row .img-clip {
+      flex: none;
+      height: 100%;
+    }
+    .pub-img-top-row .img-clip img {
+      width: auto;
+      height: 100%;
+    }
+
+    /* bottom fig2 wrapper div (replaces img.pub-img-bottom) */
+    div.pub-img-bottom {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+
+    /* work_2 tall image wrapper div (replaces img.pub-img-tall) */
+    div.pub-img-tall {
+      flex: 1;
+      min-width: 0;
+      width: 0;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+
+    /* stack clip wrappers */
+    .pub-img-stack .img-clip {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+    }
+
     .pub-desc p {
       font-family: 'EB Garamond', Georgia, serif;
       font-size: clamp(0.85rem, 1.1vw, 1rem);
@@ -881,10 +939,10 @@
         <div class="pub-col">
           <div class="pub-glass pub-images pub-images-large">
             <div class="pub-img-top-row">
-              <img src="work_1/elife-106270-fig4-v1.jpg" alt="Figure 4" />
-              <img src="work_1/elife-106270-fig6-v1.jpg" alt="Figure 6" />
+              <div class="img-clip"><img src="work_1/elife-106270-fig4-v1.jpg" alt="Figure 4" /></div>
+              <div class="img-clip"><img src="work_1/elife-106270-fig6-v1.jpg" alt="Figure 6" /></div>
             </div>
-            <img src="work_1/elife-106270-fig2-v1.jpg" alt="Figure 2" class="pub-img-bottom" />
+            <div class="pub-img-bottom"><img src="work_1/elife-106270-fig2-v1.jpg" alt="Figure 2" /></div>
           </div>
           <div class="pub-glass pub-desc">
             <p>Placeholder — publication 1 title, authors, journal, year, and a brief description of the work will go here.</p>
@@ -894,10 +952,10 @@
         <!-- Right column: work_2 -->
         <div class="pub-col">
           <div class="pub-glass pub-images pub-images-work2">
-            <img src="work_2/Screenshot%202026-03-27%20at%204.50.48%E2%80%AFPM.png" alt="Figure 3" class="pub-img-tall" />
+            <div class="pub-img-tall"><img src="work_2/Screenshot%202026-03-27%20at%204.50.48%E2%80%AFPM.png" alt="Figure 3" /></div>
             <div class="pub-img-stack">
-              <img src="work_2/Screenshot%202025-12-16%20at%2010.05.16%E2%80%AFPM.png" alt="Figure 1" />
-              <img src="work_2/Screenshot%202026-03-27%20at%204.49.52%E2%80%AFPM.png" alt="Figure 2" />
+              <div class="img-clip"><img src="work_2/Screenshot%202025-12-16%20at%2010.05.16%E2%80%AFPM.png" alt="Figure 1" /></div>
+              <div class="img-clip"><img src="work_2/Screenshot%202026-03-27%20at%204.49.52%E2%80%AFPM.png" alt="Figure 2" /></div>
             </div>
           </div>
           <div class="pub-glass pub-desc">
