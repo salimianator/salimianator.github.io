@@ -680,16 +680,18 @@
       width: 100%;
     }
 
-    /* work_1 bottom (fig2) and work_2 stack-bottom: aspect-ratio mismatch
-       is too large for cover. Fix: size the img to its natural ratio
-       (height:100% + width:auto), then border-radius on the img itself
-       clips the actual image corners (not just transparent wrapper air). */
+    /* fig4 (work_1 top-left), fig2 (work_1 bottom), work_2 stack-bottom:
+       aspect-ratio mismatch causes cover to crop content. Fix: size the img
+       to its natural ratio (height:100% + width:auto), then border-radius on
+       the img itself clips the actual image corners (not wrapper air). */
+    .pub-img-top-row .img-clip:first-child,
     div.pub-img-bottom,
     .pub-img-stack .img-clip:last-child {
       align-items: center;
       justify-content: center;
     }
 
+    .pub-img-top-row .img-clip:first-child img,
     div.pub-img-bottom > img,
     .pub-img-stack .img-clip:last-child img {
       height: 100%;
