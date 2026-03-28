@@ -402,7 +402,16 @@
       100% { transform: translate(-50%, -50%) translate(0px,   0px)  scale(1.00); }
     }
 
-    /* Text — always dark (glass card provides light surface) */
+    /* Dark mode overrides — background section text */
+    :root.dark .bg-title           { color: rgba(232, 228, 220, 0.92); }
+    :root.dark .bg-text p          { color: rgba(232, 228, 220, 0.82); }
+    :root.dark .bg-text a          { color: rgba(232, 228, 220, 0.85);
+                                     text-decoration-color: rgba(232, 228, 220, 0.28); }
+    :root.dark .bg-text a:hover    { text-decoration-color: rgba(232, 228, 220, 0.70); }
+    :root.dark .fellowship-badge   { color: #d4aa50; }
+    :root.dark .bg-date            { color: rgba(232, 228, 220, 0.55); }
+
+    /* Text — always dark in light mode (glass card provides light surface) */
     .bg-text {
       flex: 1;
       padding: 0.6rem 1.4rem 1.6rem;
@@ -526,6 +535,8 @@
       height: 600px;
       flex-direction: column;
       align-items: stretch;
+      overflow: hidden;
+      border-radius: 16px;
     }
 
     .pub-images-large img {
@@ -566,19 +577,21 @@
     .pub-images-work2 {
       align-items: stretch;
       height: 600px;
+      overflow: hidden;
+      border-radius: 16px;
     }
 
     .pub-images-work2 img {
       max-height: none;
     }
 
-    /* Tall image — specificity 0-1-1 via element+class selector, wins over
-       .pub-images img; renders at full container height with natural width */
+    /* Tall image — flex:1 gives equal 50/50 split with the stack */
     img.pub-img-tall {
-      flex: none;
+      flex: 1;
+      min-width: 0;
+      width: 0;
       height: 100%;
-      width: auto;
-      object-fit: unset;
+      object-fit: contain;
       border-radius: 16px;
     }
 
@@ -588,6 +601,8 @@
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
+      overflow: hidden;
+      border-radius: 16px;
     }
 
     .pub-img-stack img {
