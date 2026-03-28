@@ -680,6 +680,14 @@
       width: 100%;
     }
 
+    /* work_1 bottom (fig2) and work_2 stack bottom: aspect-ratio mismatch
+       is too large for cover — use contain so full content is visible.
+       The wrapper's overflow:hidden still clips rounded corners cleanly.  */
+    div.pub-img-bottom > img,
+    .pub-img-stack .img-clip:last-child img {
+      object-fit: contain;
+    }
+
     .pub-desc p {
       font-family: 'EB Garamond', Georgia, serif;
       font-size: clamp(0.85rem, 1.1vw, 1rem);
