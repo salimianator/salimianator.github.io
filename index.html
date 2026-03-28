@@ -703,6 +703,41 @@
       border-radius: 16px;
     }
 
+    /* ── Publication logo row ───────────────────────────────────────── */
+    .pub-logo-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .pub-journal-logo {
+      height: 36px;
+      width: auto;
+      display: block;
+      opacity: 0.82;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .pub-journal-logo:hover {
+      opacity: 1;
+      transform: scale(1.06);
+    }
+
+    .pub-news-logo {
+      height: 34px;
+      width: auto;
+      display: block;
+      opacity: 0.78;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .pub-news-logo:hover {
+      opacity: 1;
+      transform: scale(1.06);
+    }
+
     .pub-desc p {
       font-family: 'EB Garamond', Georgia, serif;
       font-size: clamp(0.85rem, 1.1vw, 1rem);
@@ -976,6 +1011,11 @@
             </div>
             <div class="pub-img-bottom"><img src="work_1/elife-106270-fig2-v1.jpg" alt="Figure 2" /></div>
           </div>
+          <div class="pub-logo-row">
+            <a href="https://elifesciences.org/articles/106270" target="_blank" rel="noopener" aria-label="View on eLife">
+              <img src="logos/eLife.png" alt="eLife" class="pub-journal-logo" />
+            </a>
+          </div>
           <div class="pub-glass pub-desc">
             <p>Placeholder — publication 1 title, authors, journal, year, and a brief description of the work will go here.</p>
           </div>
@@ -989,6 +1029,16 @@
               <div class="img-clip"><img src="work_2/Screenshot%202025-12-16%20at%2010.05.16%E2%80%AFPM.png" alt="Figure 1" /></div>
               <div class="img-clip"><img src="work_2/Screenshot%202026-03-27%20at%204.49.52%E2%80%AFPM.png" alt="Figure 2" /></div>
             </div>
+          </div>
+          <div class="pub-logo-row">
+            <a href="https://elifesciences.org/reviewed-preprints/109240" target="_blank" rel="noopener" aria-label="View on eLife">
+              <img src="logos/eLife.png" alt="eLife" class="pub-journal-logo" />
+            </a>
+            <a href="https://elifesciences.org/articles/110364" target="_blank" rel="noopener" aria-label="View news article">
+              <svg class="pub-news-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                <path d="M4 3h16a1 1 0 0 1 1 1v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a1 1 0 0 1 1-1zm1 2v13a1 1 0 0 0 1 1h13V5H5zm2 2h6v5H7V7zm0 7h10v2H7v-2zm8-7h2v2h-2V7zm0 3h2v2h-2v-2z"/>
+              </svg>
+            </a>
           </div>
           <div class="pub-glass pub-desc">
             <p>Placeholder — publication 2 title, authors, journal, year, and a brief description of the work will go here.</p>
