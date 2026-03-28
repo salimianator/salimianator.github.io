@@ -712,30 +712,43 @@
       gap: 1.25rem;
     }
 
+    /* Links inherit the same muted colour as the home-page social icons */
+    .pub-logo-row a {
+      color: var(--fg-muted);
+      transition: color 0.25s ease, transform 0.18s ease;
+      display: flex;
+      align-items: center;
+    }
+    .pub-logo-row a:hover {
+      color: var(--fg);
+      transform: scale(1.06);
+    }
+
+    /* eLife PNG: brightness(0) → pure black silhouette; opacity tunes the tone
+       to match --fg-muted (#7a7670) on the light background.               */
     .pub-journal-logo {
       height: 36px;
       width: auto;
       display: block;
-      opacity: 0.82;
-      transition: opacity 0.18s ease, transform 0.18s ease;
+      filter: brightness(0) opacity(0.52);
+      transition: filter 0.25s ease;
     }
-
     .pub-journal-logo:hover {
-      opacity: 1;
-      transform: scale(1.06);
+      filter: brightness(0) opacity(0.88);
+    }
+    :root.dark .pub-journal-logo {
+      filter: brightness(0) invert(1) opacity(0.42);
+    }
+    :root.dark .pub-journal-logo:hover {
+      filter: brightness(0) invert(1) opacity(0.75);
     }
 
+    /* Newspaper SVG — uses fill:currentColor, inherits .pub-logo-row a color */
     .pub-news-logo {
-      height: 34px;
-      width: auto;
+      height: 32px;
+      width: 32px;
       display: block;
-      opacity: 0.78;
-      transition: opacity 0.18s ease, transform 0.18s ease;
-    }
-
-    .pub-news-logo:hover {
-      opacity: 1;
-      transform: scale(1.06);
+      fill: currentColor;
     }
 
     .pub-desc p {
@@ -1035,8 +1048,8 @@
               <img src="logos/eLife.png" alt="eLife" class="pub-journal-logo" />
             </a>
             <a href="https://elifesciences.org/articles/110364" target="_blank" rel="noopener" aria-label="View news article">
-              <svg class="pub-news-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                <path d="M4 3h16a1 1 0 0 1 1 1v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a1 1 0 0 1 1-1zm1 2v13a1 1 0 0 0 1 1h13V5H5zm2 2h6v5H7V7zm0 7h10v2H7v-2zm8-7h2v2h-2V7zm0 3h2v2h-2v-2z"/>
+              <svg class="pub-news-logo" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                <path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,160H40V56H216V200ZM184,96a8,8,0,0,1-8,8H136a8,8,0,0,1,0-16h40A8,8,0,0,1,184,96Zm0,32a8,8,0,0,1-8,8H136a8,8,0,0,1,0-16h40A8,8,0,0,1,184,128Zm0,32a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16H176A8,8,0,0,1,184,160ZM120,120a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h32A8,8,0,0,1,120,120ZM72,72h48a8,8,0,0,1,8,8v40a8,8,0,0,1-8,8H72a8,8,0,0,1-8-8V80A8,8,0,0,1,72,72Z"/>
               </svg>
             </a>
           </div>
