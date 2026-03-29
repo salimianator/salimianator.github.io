@@ -530,9 +530,11 @@
       border-radius: 16px;
     }
 
-    /* work_1: top row (fig4 + fig6) + bottom row (fig2), 273px tall */
+    /* work_1: top row (fig4 + fig6) + bottom row (fig2), 210px tall */
     .pub-images-large {
-      height: 273px;
+      height: 210px;
+      flex: 1;
+      min-width: 0;
       flex-direction: column;
       align-items: stretch;
       overflow: hidden;
@@ -576,7 +578,9 @@
     /* work_2: tall image left, two square images stacked right */
     .pub-images-work2 {
       align-items: stretch;
-      height: 273px;
+      height: 210px;
+      flex: 1;
+      min-width: 0;
       overflow: hidden;
       border-radius: 16px;
     }
@@ -705,7 +709,79 @@
       border-radius: 16px;
     }
 
-    /* ── Publication logo row ───────────────────────────────────────── */
+    /* ── Images + links pair row ────────────────────────────────────── */
+    .pub-pair-row {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      align-items: stretch;
+      width: 100%;
+    }
+
+    /* Tighter padding for image cards (overrides pub-glass 1.2rem) */
+    .pub-glass.pub-images {
+      padding: 0.6rem;
+    }
+
+    /* Relevant links card */
+    .pub-links-card {
+      flex: 0 0 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.1rem;
+      padding: 1.2rem 1rem;
+    }
+
+    .pub-links-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      margin: 0;
+      text-align: center;
+    }
+
+    .pub-link-icons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .pub-link-icons a {
+      color: var(--fg-muted);
+      transition: color 0.25s ease, transform 0.18s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pub-link-icons a:hover {
+      color: var(--fg);
+      transform: scale(1.08);
+    }
+
+    .pub-link-icons svg {
+      width: 26px;
+      height: 26px;
+      fill: currentColor;
+    }
+
+    .pub-link-icons .pub-journal-logo {
+      height: 24px;
+      width: auto;
+    }
+
+    .pub-link-icons .pub-news-logo {
+      width: 26px;
+      height: 26px;
+    }
+
+    /* ── Publication logo row (legacy, no longer used) ───────────────── */
     .pub-logo-row {
       display: flex;
       flex-direction: row;
@@ -1011,17 +1087,25 @@
 
         <!-- Left column: work_1 -->
         <div class="pub-col">
-          <div class="pub-glass pub-images pub-images-large">
-            <div class="pub-img-top-row">
-              <div class="img-clip"><img src="work_1/elife-106270-fig4-v1.jpg" alt="Figure 4" /></div>
-              <div class="img-clip"><img src="work_1/elife-106270-fig6-v1.jpg" alt="Figure 6" /></div>
+          <div class="pub-pair-row">
+            <div class="pub-glass pub-images pub-images-large">
+              <div class="pub-img-top-row">
+                <div class="img-clip"><img src="work_1/elife-106270-fig4-v1.jpg" alt="Figure 4" /></div>
+                <div class="img-clip"><img src="work_1/elife-106270-fig6-v1.jpg" alt="Figure 6" /></div>
+              </div>
+              <div class="pub-img-bottom"><img src="work_1/elife-106270-fig2-v1.jpg" alt="Figure 2" /></div>
             </div>
-            <div class="pub-img-bottom"><img src="work_1/elife-106270-fig2-v1.jpg" alt="Figure 2" /></div>
-          </div>
-          <div class="pub-logo-row">
-            <a href="https://elifesciences.org/articles/106270" target="_blank" rel="noopener" aria-label="View on eLife">
-              <img src="logos/eLife.png" alt="eLife" class="pub-journal-logo" />
-            </a>
+            <div class="pub-glass pub-links-card">
+              <h3 class="pub-links-title">Relevant links</h3>
+              <div class="pub-link-icons">
+                <a href="https://elifesciences.org/articles/106270" target="_blank" rel="noopener" aria-label="View on eLife">
+                  <img src="logos/eLife.png" alt="eLife" class="pub-journal-logo" />
+                </a>
+                <a href="https://github.com/kaufmanlab/GSK26-public" target="_blank" rel="noopener" aria-label="View on GitHub">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                </a>
+              </div>
+            </div>
           </div>
           <div class="pub-glass pub-desc">
             <p>Placeholder — publication 1 title, authors, journal, year, and a brief description of the work will go here.</p>
@@ -1030,22 +1114,25 @@
 
         <!-- Right column: work_2 -->
         <div class="pub-col">
-          <div class="pub-glass pub-images pub-images-work2">
-            <div class="pub-img-tall"><img src="work_2/Screenshot%202026-03-27%20at%204.50.48%E2%80%AFPM.png" alt="Figure 3" /></div>
-            <div class="pub-img-stack">
-              <div class="img-clip"><img src="work_2/Screenshot%202025-12-16%20at%2010.05.16%E2%80%AFPM.png" alt="Figure 1" /></div>
-              <div class="img-clip"><img src="work_2/Screenshot%202026-03-27%20at%204.49.52%E2%80%AFPM.png" alt="Figure 2" /></div>
+          <div class="pub-pair-row">
+            <div class="pub-glass pub-images pub-images-work2">
+              <div class="pub-img-tall"><img src="work_2/Screenshot%202026-03-27%20at%204.50.48%E2%80%AFPM.png" alt="Figure 3" /></div>
+              <div class="pub-img-stack">
+                <div class="img-clip"><img src="work_2/Screenshot%202025-12-16%20at%2010.05.16%E2%80%AFPM.png" alt="Figure 1" /></div>
+                <div class="img-clip"><img src="work_2/Screenshot%202026-03-27%20at%204.49.52%E2%80%AFPM.png" alt="Figure 2" /></div>
+              </div>
             </div>
-          </div>
-          <div class="pub-logo-row">
-            <a href="https://elifesciences.org/reviewed-preprints/109240" target="_blank" rel="noopener" aria-label="View on eLife">
-              <img src="logos/eLife.png" alt="eLife" class="pub-journal-logo" />
-            </a>
-            <a href="https://elifesciences.org/articles/110364" target="_blank" rel="noopener" aria-label="View news article">
-              <svg class="pub-news-logo" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                <path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,160H40V56H216V200ZM184,96a8,8,0,0,1-8,8H136a8,8,0,0,1,0-16h40A8,8,0,0,1,184,96Zm0,32a8,8,0,0,1-8,8H136a8,8,0,0,1,0-16h40A8,8,0,0,1,184,128Zm0,32a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16H176A8,8,0,0,1,184,160ZM120,120a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h32A8,8,0,0,1,120,120ZM72,72h48a8,8,0,0,1,8,8v40a8,8,0,0,1-8,8H72a8,8,0,0,1-8-8V80A8,8,0,0,1,72,72Z"/>
-              </svg>
-            </a>
+            <div class="pub-glass pub-links-card">
+              <h3 class="pub-links-title">Relevant links</h3>
+              <div class="pub-link-icons">
+                <a href="https://elifesciences.org/reviewed-preprints/109240" target="_blank" rel="noopener" aria-label="View on eLife">
+                  <img src="logos/eLife.png" alt="eLife" class="pub-journal-logo" />
+                </a>
+                <a href="https://elifesciences.org/articles/110364" target="_blank" rel="noopener" aria-label="View news article">
+                  <svg class="pub-news-logo" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,160H40V56H216V200ZM184,96a8,8,0,0,1-8,8H136a8,8,0,0,1,0-16h40A8,8,0,0,1,184,96Zm0,32a8,8,0,0,1-8,8H136a8,8,0,0,1,0-16h40A8,8,0,0,1,184,128Zm0,32a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16H176A8,8,0,0,1,184,160ZM120,120a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h32A8,8,0,0,1,120,120ZM72,72h48a8,8,0,0,1,8,8v40a8,8,0,0,1-8,8H72a8,8,0,0,1-8-8V80A8,8,0,0,1,72,72Z"/></svg>
+                </a>
+              </div>
+            </div>
           </div>
           <div class="pub-glass pub-desc">
             <p>Placeholder — publication 2 title, authors, journal, year, and a brief description of the work will go here.</p>
