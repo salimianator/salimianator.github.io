@@ -4,9 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sohrab Salimian</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -37,7 +34,7 @@
       background-color: var(--bg);
       color: var(--fg);
       transition: background-color var(--transition), color var(--transition);
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       position: relative;
     }
 
@@ -55,7 +52,7 @@
     /* Corner elements */
     .corner {
       position: fixed;
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: 0.85rem;
       font-weight: 400;
       letter-spacing: 0.06em;
@@ -161,7 +158,7 @@
     body.menu-open .menu-nav li:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.26s; }
 
     .menu-nav a {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: clamp(2rem, 4vw, 3.2rem);
       font-weight: 400;
       letter-spacing: 0.04em;
@@ -239,7 +236,7 @@
 
     /* Date label below each card */
     .bg-date {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: clamp(0.85rem, 1.1vw, 1rem);
       color: rgba(15, 10, 5, 0.55);
       text-align: center;
@@ -421,7 +418,7 @@
     }
 
     .bg-title {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: clamp(0.9rem, 1.2vw, 1.08rem);
       color: rgba(15, 10, 5, 0.90);
       font-weight: 500;
@@ -437,7 +434,7 @@
     }
 
     .bg-text p {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: clamp(0.85rem, 1.1vw, 1rem);
       color: rgba(15, 10, 5, 0.82);
       line-height: 1.72;
@@ -478,7 +475,7 @@
     }
 
     .research-section-title {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: clamp(1.6rem, 2.5vw, 2.4rem);
       font-weight: 400;
       color: rgba(15, 10, 5, 0.88);
@@ -490,17 +487,106 @@
 
     .pub-row {
       display: flex;
-      gap: 2rem;
-      align-items: flex-start;
+      flex-direction: column;
+      gap: 1.5rem;
       width: 100%;
     }
 
     .pub-col {
+      width: 100%;
+    }
+
+    /* ── Publication card (new single-overlay layout) ───────────────── */
+    .pub-card {
+      display: flex;
+      flex-direction: row;
+      gap: 1.5rem;
+      align-items: flex-start;
+      padding: 1.2rem;
+    }
+
+    .pub-card-img {
+      flex: 0 0 auto;
+      height: 315px;
+      width: auto;
+      display: block;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+
+    .pub-card-content {
       flex: 1;
       min-width: 0;
       display: flex;
       flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .pub-card-top {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
       gap: 1rem;
+    }
+
+    .pub-card-title {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.45;
+      color: var(--fg);
+      margin: 0;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pub-card-links {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .pub-card-links a {
+      color: var(--fg-muted);
+      transition: color 0.25s ease, transform 0.18s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .pub-card-links a:hover {
+      color: var(--fg);
+      transform: scale(1.08);
+    }
+
+    .pub-card-links svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .pub-card-links .pub-journal-logo {
+      height: 22px;
+      width: auto;
+    }
+
+    .pub-card-links .pub-news-logo {
+      width: 22px;
+      height: 22px;
+    }
+
+    .pub-card-desc {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: clamp(0.82rem, 1vw, 0.95rem);
+      color: rgba(15, 10, 5, 0.78);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    :root.dark .pub-card-desc {
+      color: rgba(232, 228, 220, 0.75);
     }
 
     .pub-glass {
@@ -735,7 +821,7 @@
     }
 
     .pub-links-title {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: 0.8rem;
       font-weight: 600;
       letter-spacing: 0.1em;
@@ -822,7 +908,7 @@
     }
 
     .pub-desc p {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: clamp(0.85rem, 1.1vw, 1rem);
       color: rgba(15, 10, 5, 0.82);
       line-height: 1.72;
@@ -862,7 +948,7 @@
     }
 
     .name {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-style: normal;
       font-size: clamp(3.2rem, 6.5vw, 6rem);
       font-weight: 400;
@@ -873,7 +959,7 @@
     }
 
     .phd-tag {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-style: normal;
       font-size: clamp(1.1rem, 2vw, 1.7rem);
       font-weight: 400;
@@ -895,7 +981,7 @@
     }
 
     .subtitle {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-weight: 400;
       line-height: 1.65;
       opacity: 0;
@@ -1082,60 +1168,48 @@
       <!-- Publications heading -->
       <h2 class="research-section-title">Publications</h2>
 
-      <!-- Two-column publication layout -->
+      <!-- Publication cards (vertical stack, image left + content right) -->
       <div class="pub-row">
 
-        <!-- Left column: work_1 -->
+        <!-- work_1 card -->
         <div class="pub-col">
-          <div class="pub-pair-row">
-            <div class="pub-glass pub-images pub-images-large">
-              <div class="pub-img-top-row">
-                <div class="img-clip"><img src="work_1/elife-106270-fig4-v1.jpg" alt="Figure 4" /></div>
-                <div class="img-clip"><img src="work_1/elife-106270-fig6-v1.jpg" alt="Figure 6" /></div>
+          <div class="pub-glass pub-card">
+            <img src="work_1/elife-106270-fig6-v1.jpg" alt="Figure 6" class="pub-card-img" />
+            <div class="pub-card-content">
+              <div class="pub-card-top">
+                <h3 class="pub-card-title">Mouse sensorimotor cortex reflects complex kinematic details during reaching and grasping</h3>
+                <div class="pub-card-links">
+                  <a href="https://elifesciences.org/articles/106270" target="_blank" rel="noopener" aria-label="View on eLife">
+                    <img src="logos/eLife.png" alt="eLife" class="pub-journal-logo" />
+                  </a>
+                  <a href="https://github.com/kaufmanlab/GSK26-public" target="_blank" rel="noopener" aria-label="View on GitHub">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                  </a>
+                </div>
               </div>
-              <div class="pub-img-bottom"><img src="work_1/elife-106270-fig2-v1.jpg" alt="Figure 2" /></div>
+              <p class="pub-card-desc">Placeholder — publication 1 title, authors, journal, year, and a brief description of the work will go here.</p>
             </div>
-            <div class="pub-glass pub-links-card">
-              <h3 class="pub-links-title">Relevant links</h3>
-              <div class="pub-link-icons">
-                <a href="https://elifesciences.org/articles/106270" target="_blank" rel="noopener" aria-label="View on eLife">
-                  <img src="logos/eLife.png" alt="eLife" class="pub-journal-logo" />
-                </a>
-                <a href="https://github.com/kaufmanlab/GSK26-public" target="_blank" rel="noopener" aria-label="View on GitHub">
-                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="pub-glass pub-desc">
-            <p>Placeholder — publication 1 title, authors, journal, year, and a brief description of the work will go here.</p>
           </div>
         </div>
 
-        <!-- Right column: work_2 -->
+        <!-- work_2 card -->
         <div class="pub-col">
-          <div class="pub-pair-row">
-            <div class="pub-glass pub-images pub-images-work2">
-              <div class="pub-img-tall"><img src="work_2/Screenshot%202026-03-27%20at%204.50.48%E2%80%AFPM.png" alt="Figure 3" /></div>
-              <div class="pub-img-stack">
-                <div class="img-clip"><img src="work_2/Screenshot%202025-12-16%20at%2010.05.16%E2%80%AFPM.png" alt="Figure 1" /></div>
-                <div class="img-clip"><img src="work_2/Screenshot%202026-03-27%20at%204.49.52%E2%80%AFPM.png" alt="Figure 2" /></div>
+          <div class="pub-glass pub-card">
+            <img src="work_2/Screenshot%202025-12-16%20at%2010.05.16%E2%80%AFPM.png" alt="Figure 1" class="pub-card-img" />
+            <div class="pub-card-content">
+              <div class="pub-card-top">
+                <h3 class="pub-card-title">Neural activity profiles reveal overlapping, intermingled subpopulations spanning area borders in mouse sensorimotor cortex</h3>
+                <div class="pub-card-links">
+                  <a href="https://elifesciences.org/reviewed-preprints/109240" target="_blank" rel="noopener" aria-label="View on eLife">
+                    <img src="logos/eLife.png" alt="eLife" class="pub-journal-logo" />
+                  </a>
+                  <a href="https://elifesciences.org/articles/110364" target="_blank" rel="noopener" aria-label="View news article">
+                    <svg class="pub-news-logo" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,160H40V56H216V200ZM184,96a8,8,0,0,1-8,8H136a8,8,0,0,1,0-16h40A8,8,0,0,1,184,96Zm0,32a8,8,0,0,1-8,8H136a8,8,0,0,1,0-16h40A8,8,0,0,1,184,128Zm0,32a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16H176A8,8,0,0,1,184,160ZM120,120a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h32A8,8,0,0,1,120,120ZM72,72h48a8,8,0,0,1,8,8v40a8,8,0,0,1-8,8H72a8,8,0,0,1-8-8V80A8,8,0,0,1,72,72Z"/></svg>
+                  </a>
+                </div>
               </div>
+              <p class="pub-card-desc">Placeholder — publication 2 title, authors, journal, year, and a brief description of the work will go here.</p>
             </div>
-            <div class="pub-glass pub-links-card">
-              <h3 class="pub-links-title">Relevant links</h3>
-              <div class="pub-link-icons">
-                <a href="https://elifesciences.org/reviewed-preprints/109240" target="_blank" rel="noopener" aria-label="View on eLife">
-                  <img src="logos/eLife.png" alt="eLife" class="pub-journal-logo" />
-                </a>
-                <a href="https://elifesciences.org/articles/110364" target="_blank" rel="noopener" aria-label="View news article">
-                  <svg class="pub-news-logo" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,160H40V56H216V200ZM184,96a8,8,0,0,1-8,8H136a8,8,0,0,1,0-16h40A8,8,0,0,1,184,96Zm0,32a8,8,0,0,1-8,8H136a8,8,0,0,1,0-16h40A8,8,0,0,1,184,128Zm0,32a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16H176A8,8,0,0,1,184,160ZM120,120a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h32A8,8,0,0,1,120,120ZM72,72h48a8,8,0,0,1,8,8v40a8,8,0,0,1-8,8H72a8,8,0,0,1-8-8V80A8,8,0,0,1,72,72Z"/></svg>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="pub-glass pub-desc">
-            <p>Placeholder — publication 2 title, authors, journal, year, and a brief description of the work will go here.</p>
           </div>
         </div>
 
