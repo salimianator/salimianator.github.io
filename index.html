@@ -530,9 +530,9 @@
       border-radius: 16px;
     }
 
-    /* work_1: top row (fig4 + fig6) + bottom row (fig2), 364px tall */
+    /* work_1: top row (fig4 + fig6) + bottom row (fig2), 273px tall */
     .pub-images-large {
-      height: 364px;
+      height: 273px;
       flex-direction: column;
       align-items: stretch;
       overflow: hidden;
@@ -576,7 +576,7 @@
     /* work_2: tall image left, two square images stacked right */
     .pub-images-work2 {
       align-items: stretch;
-      height: 364px;
+      height: 273px;
       overflow: hidden;
       border-radius: 16px;
     }
@@ -680,20 +680,22 @@
       width: 100%;
     }
 
-    /* fig4 (work_1 top-left), fig2 (work_1 bottom), work_2 stack-bottom:
-       aspect-ratio mismatch causes cover to crop content. Fix: size the img
-       to its natural ratio (height:100% + width:auto), then border-radius on
-       the img itself clips the actual image corners (not wrapper air). */
-    .pub-img-top-row .img-clip:first-child,
+    /* All 6 images: natural-ratio sizing so no image is ever cropped
+       regardless of container height. Each img is sized height:100%/width:auto
+       (= its natural aspect ratio at the row height), centered in its wrapper,
+       with border-radius clipping the actual image corners.                 */
+    .pub-img-top-row .img-clip,
     div.pub-img-bottom,
-    .pub-img-stack .img-clip:last-child {
+    div.pub-img-tall,
+    .pub-img-stack .img-clip {
       align-items: center;
       justify-content: center;
     }
 
-    .pub-img-top-row .img-clip:first-child img,
+    .pub-img-top-row .img-clip img,
     div.pub-img-bottom > img,
-    .pub-img-stack .img-clip:last-child img {
+    div.pub-img-tall > img,
+    .pub-img-stack .img-clip img {
       height: 100%;
       width: auto;
       flex: none;
