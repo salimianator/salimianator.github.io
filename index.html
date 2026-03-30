@@ -982,6 +982,61 @@
     :root.dark .pub-desc p             { color: rgba(232, 228, 220, 0.82); }
     :root.dark .research-divider       { background: rgba(232, 228, 220, 0.50); }
 
+    /* ── Conference presentations list ────────────────────────────────── */
+    .conf-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      width: 100%;
+    }
+
+    .conf-item {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 0.9rem 1.4rem;
+    }
+
+    .conf-item-main {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conf-item-title {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 0.93rem;
+      font-weight: 600;
+      color: var(--fg);
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    .conf-item-venue {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 0.83rem;
+      color: var(--fg-muted);
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .conf-item-year {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 0.83rem;
+      font-weight: 500;
+      color: var(--fg-muted);
+      flex-shrink: 0;
+      letter-spacing: 0.03em;
+    }
+
+    :root.dark .conf-item-title { color: var(--fg); }
+    :root.dark .conf-item-venue,
+    :root.dark .conf-item-year  { color: var(--fg-muted); }
+
     /* ── Main content ──────────────────────────────────────────────────────── */
     .content {
       position: fixed;
@@ -1269,7 +1324,36 @@
       <!-- Divider between top and bottom halves -->
       <div class="research-divider"></div>
 
-      <!-- Bottom half — reserved for future content -->
+      <!-- Conference Presentations -->
+      <h2 class="research-section-title">Conference Presentations</h2>
+
+      <div class="conf-list">
+
+        <div class="pub-glass conf-item">
+          <div class="conf-item-main">
+            <p class="conf-item-title">Placeholder presentation title — talk or poster title goes here</p>
+            <p class="conf-item-venue">Conference Name · City, Country</p>
+          </div>
+          <span class="conf-item-year">2025</span>
+        </div>
+
+        <div class="pub-glass conf-item">
+          <div class="conf-item-main">
+            <p class="conf-item-title">Placeholder presentation title — talk or poster title goes here</p>
+            <p class="conf-item-venue">Conference Name · City, Country</p>
+          </div>
+          <span class="conf-item-year">2024</span>
+        </div>
+
+        <div class="pub-glass conf-item">
+          <div class="conf-item-main">
+            <p class="conf-item-title">Placeholder presentation title — talk or poster title goes here</p>
+            <p class="conf-item-venue">Conference Name · City, Country</p>
+          </div>
+          <span class="conf-item-year">2023</span>
+        </div>
+
+      </div>
 
     </div>
   </div>
