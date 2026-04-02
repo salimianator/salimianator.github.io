@@ -1162,13 +1162,69 @@
 
     /* ── Mobile responsive ─────────────────────────────────────────────────── */
     @media (max-width: 600px) {
+      /* Hide desktop-only corners */
       #location-top { display: none; }
-      #site-url { display: none; }
+      #site-url     { display: none; }
 
-      /* Stack cards vertically on mobile */
-      .bg-row { flex-direction: column; }
+      /* ── Home section ────────────────────────────────────────────────────── */
+      .name {
+        white-space: normal;
+        font-size: clamp(2rem, 9vw, 3.2rem);
+        word-break: break-word;
+      }
+      .phd-tag {
+        font-size: clamp(0.9rem, 3.5vw, 1.3rem);
+      }
+      .name-line {
+        flex-wrap: wrap;
+        gap: 0.2em;
+      }
+
+      /* ── Background section ──────────────────────────────────────────────── */
+      #background-section {
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding-top: 4rem;
+      }
+      .bg-row {
+        flex-direction: column;
+        width: min(1400px, 92vw);
+        gap: 1rem;
+        margin: 0 auto;
+      }
       .bg-card-col { width: 100%; }
       .bg-h-connector { display: none; }
+
+      /* ── Research section ────────────────────────────────────────────────── */
+      #research-section {
+        padding: 4.5rem 1rem 3rem;
+        align-items: stretch;
+      }
+      .research-container {
+        width: 100%;
+      }
+      .pub-col {
+        flex: 0 0 100%;
+        min-width: 0;
+        max-width: 100%;
+      }
+      .pub-card-img {
+        height: 180px;
+      }
+
+      /* ── Conference presentations ────────────────────────────────────────── */
+      .conf-list {
+        width: 100%;
+      }
+      .conf-item {
+        flex-direction: column;
+        gap: 0.25rem;
+        padding: 0.9rem 1rem;
+      }
+      .conf-item-year {
+        align-self: flex-start;
+        margin-top: 0.2rem;
+      }
     }
   </style>
 </head>
@@ -1450,11 +1506,13 @@
         mainContent.style.opacity = '0';
         mainContent.style.pointerEvents = 'none';
         allSections.forEach(s => s.classList.remove('active'));
+        bgSection.scrollTop = 0;
         bgSection.classList.add('active');
       } else if (section === 'research') {
         mainContent.style.opacity = '0';
         mainContent.style.pointerEvents = 'none';
         allSections.forEach(s => s.classList.remove('active'));
+        researchSection.scrollTop = 0;
         researchSection.classList.add('active');
       } else {
         // Projects — placeholder
