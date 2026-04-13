@@ -1217,14 +1217,14 @@
 
     .project-card-img {
       width: 100%;
-      height: 170px;
+      height: 340px;
       object-fit: cover;
       border-radius: 8px;
     }
 
     .project-placeholder-img {
       width: 100%;
-      height: 170px;
+      height: 340px;
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px dashed rgba(255, 255, 255, 0.18);
@@ -1247,33 +1247,6 @@
       text-align: center;
     }
 
-    .carousel-nav {
-      display: flex;
-      gap: 1rem;
-      margin-top: 0.4rem;
-    }
-
-    .carousel-btn {
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: 50%;
-      width: 38px;
-      height: 38px;
-      cursor: pointer;
-      color: var(--fg);
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s, transform 0.2s;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    .carousel-btn:hover {
-      background: rgba(255, 255, 255, 0.22);
-      transform: scale(1.08);
-    }
 
     @media (max-width: 600px) {
       /* Hide desktop-only corners */
@@ -1330,7 +1303,7 @@
       .projects-container { width: 100%; min-width: 0; }
       .project-slide { flex: 0 0 100%; padding: 0; }
       .project-card-img,
-      .project-placeholder-img { height: 140px; }
+      .project-placeholder-img { height: 220px; }
 
       /* ── Conference presentations ────────────────────────────────────────── */
       .conf-list {
@@ -1596,10 +1569,6 @@
 
         </div>
       </div>
-      <div class="carousel-nav">
-        <button class="carousel-btn" id="proj-prev">&#8592;</button>
-        <button class="carousel-btn" id="proj-next">&#8594;</button>
-      </div>
     </div>
   </div>
 
@@ -1818,9 +1787,10 @@
         origSlides.forEach(s => track.appendChild(s.cloneNode(true)));
       }
       // Track now has 3*N = 12 slides. Start in the middle copy (index N).
-      let idx          = N;
+      let idx           = N;
       let transitioning = false;
-      let lastWheel    = 0;
+      let lastAdvance   = 0;
+      let mouseAccumX   = 0;
 
       function cardPx() {
         return viewport.offsetWidth / VISIBLE;
@@ -1829,7 +1799,7 @@
       function setPos(animate) {
         if (!animate) {
           track.style.transition = 'none';
-          void track.offsetHeight; // force reflow so transition:none applies
+          void track.offsetHeight;
         } else {
           track.style.transition = 'transform 0.52s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
           transitioning = true;
@@ -1843,29 +1813,25 @@
       track.addEventListener('transitionend', (e) => {
         if (e.propertyName !== 'transform') return;
         transitioning = false;
-        // Wrap: if we've scrolled into the 3rd copy, jump back to 2nd
         if (idx >= 2 * N) { idx -= N; setPos(false); }
-        // Wrap: if we've scrolled before the 2nd copy, jump to 2nd
         if (idx < N)       { idx += N; setPos(false); }
       });
 
       function advance(dir) {
         const now = Date.now();
-        if (transitioning || now - lastWheel < 580) return;
-        lastWheel = now;
+        if (transitioning || now - lastAdvance < 580) return;
+        lastAdvance = now;
+        mouseAccumX = 0;
         idx += dir;
         setPos(true);
       }
 
-      // Wheel scroll on the section
-      projectsSection.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        advance(e.deltaY > 0 ? 1 : -1);
-      }, { passive: false });
-
-      // Arrow buttons
-      document.getElementById('proj-prev').addEventListener('click', () => advance(-1));
-      document.getElementById('proj-next').addEventListener('click', () => advance(1));
+      // Mouse movement: accumulate horizontal delta, advance every ~60px
+      projectsSection.addEventListener('mousemove', (e) => {
+        mouseAccumX += e.movementX;
+        if (mouseAccumX < -60) advance(1);   // moved left  → next
+        else if (mouseAccumX > 60) advance(-1); // moved right → prev
+      });
 
       // Recalculate on resize
       window.addEventListener('resize', () => requestAnimationFrame(() => setPos(false)));
