@@ -1166,66 +1166,78 @@
     #projects-section {
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       overflow: hidden;
     }
 
     .projects-container {
-      width: 75%;
-      max-width: 1200px;
-      min-width: 500px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 1.2rem;
+      gap: 1rem;
     }
 
+    /* Clipping window — one card visible at a time */
     .projects-viewport {
-      width: 100%;
+      width: 20vw;
+      min-width: 220px;
+      height: calc(30vh + 70px); /* card (30vh) + link circles below */
+      position: relative;
       overflow: hidden;
     }
 
     .projects-track {
-      display: flex;
-      flex-direction: row;
+      position: relative;
       width: 100%;
-      will-change: transform;
+      height: 100%;
     }
 
+    /* Each slide is absolutely positioned, full size of viewport */
     .project-slide {
-      flex: 0 0 calc(100% / 3);
-      padding: 0 0.6rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 0.6rem;
     }
 
     .project-card {
       display: flex;
       flex-direction: column;
       width: 100%;
-      gap: 0.7rem;
+      height: 30vh;
+      min-height: 0;
+      gap: 0.5rem;
+      overflow: hidden;
     }
 
     .project-card-title {
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      font-size: clamp(0.85rem, 1.1vw, 1rem);
+      font-size: clamp(0.78rem, 1vw, 0.95rem);
       font-weight: 600;
       color: var(--fg);
       text-align: center;
       letter-spacing: 0.02em;
+      flex-shrink: 0;
     }
 
     .project-card-img {
+      flex: 1;
       width: 100%;
-      height: calc(100vh - 300px);
+      min-height: 0;
       object-fit: contain;
-      border-radius: 8px;
+      border-radius: 6px;
     }
 
     .project-placeholder-img {
+      flex: 1;
       width: 100%;
-      height: calc(100vh - 300px);
-      border-radius: 8px;
+      min-height: 0;
+      border-radius: 6px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px dashed rgba(255, 255, 255, 0.18);
       display: flex;
@@ -1235,22 +1247,23 @@
 
     .project-placeholder-img span {
       color: var(--fg-muted);
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
     }
 
     .project-card-desc {
-      font-size: clamp(0.72rem, 0.9vw, 0.85rem);
+      font-size: clamp(0.65rem, 0.8vw, 0.78rem);
       color: var(--fg-muted);
-      line-height: 1.55;
+      line-height: 1.5;
       text-align: center;
+      flex-shrink: 0;
     }
 
     .carousel-nav {
       display: flex;
       gap: 1rem;
-      margin-top: 0.6rem;
+      margin-top: 0.25rem;
     }
 
     .carousel-btn {
@@ -1327,11 +1340,7 @@
       }
 
       /* ── Projects section ───────────────────────────────────────────────── */
-      .carousel-nav { margin-top: 0.8rem; }
-      .projects-container { width: 100%; min-width: 0; }
-      .project-slide { flex: 0 0 100%; padding: 0; }
-      .project-card-img,
-      .project-placeholder-img { height: calc(100vh - 320px); }
+      .projects-viewport { width: 80vw; min-width: 0; }
 
       /* ── Conference presentations ────────────────────────────────────────── */
       .conf-list {
@@ -1806,62 +1815,48 @@
 
     // ── Projects carousel ───────────────────────────────────────────────────
     (function () {
-      const track    = document.getElementById('projects-track');
-      const viewport = document.getElementById('projects-viewport');
-      if (!track || !viewport) return;
+      const track = document.getElementById('projects-track');
+      if (!track) return;
 
-      const N       = track.children.length; // 4 original slides
-      const VISIBLE = 3;
-
-      // Build 3 full copies: clone original slides twice and append
-      const origSlides = Array.from(track.children);
-      for (let c = 0; c < 2; c++) {
-        origSlides.forEach(s => track.appendChild(s.cloneNode(true)));
-      }
-      // Track now has 3*N = 12 slides. Start in the middle copy (index N).
-      let idx           = N;
+      const slides = Array.from(track.querySelectorAll('.project-slide'));
+      const N = slides.length;
+      let current = 0;
       let transitioning = false;
-      let lastAdvance   = 0;
+      const EASE = 'transform 0.48s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
-      function cardPx() {
-        return viewport.offsetWidth / VISIBLE;
-      }
-
-      function setPos(animate) {
-        if (!animate) {
-          track.style.transition = 'none';
-          void track.offsetHeight;
-        } else {
-          track.style.transition = 'transform 0.52s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-          transitioning = true;
-        }
-        track.style.transform = `translateX(${-idx * cardPx()}px)`;
-      }
-
-      // Set initial position (no animation)
-      requestAnimationFrame(() => setPos(false));
-
-      track.addEventListener('transitionend', (e) => {
-        if (e.propertyName !== 'transform') return;
-        transitioning = false;
-        if (idx >= 2 * N) { idx -= N; setPos(false); }
-        if (idx < N)       { idx += N; setPos(false); }
+      // Init: first slide visible, rest off to the right
+      slides.forEach((s, i) => {
+        s.style.transition = 'none';
+        s.style.transform = i === 0 ? 'translateX(0)' : 'translateX(100%)';
       });
 
       function advance(dir) {
-        const now = Date.now();
-        if (transitioning || now - lastAdvance < 580) return;
-        lastAdvance = now;
-        idx += dir;
-        setPos(true);
+        if (transitioning) return;
+        transitioning = true;
+
+        const next = (current + dir + N) % N;
+        const entering = slides[next];
+        const leaving  = slides[current];
+
+        // Snap entering slide to the incoming side (no animation)
+        entering.style.transition = 'none';
+        entering.style.transform = `translateX(${dir > 0 ? 100 : -100}%)`;
+        void entering.offsetHeight; // force reflow
+
+        // Slide both
+        entering.style.transition = EASE;
+        leaving.style.transition  = EASE;
+        entering.style.transform  = 'translateX(0)';
+        leaving.style.transform   = `translateX(${dir > 0 ? -100 : 100}%)`;
+
+        current = next;
+        entering.addEventListener('transitionend', () => {
+          transitioning = false;
+        }, { once: true });
       }
 
-      // Arrow buttons
       document.getElementById('proj-prev').addEventListener('click', () => advance(-1));
       document.getElementById('proj-next').addEventListener('click', () => advance(1));
-
-      // Recalculate on resize
-      window.addEventListener('resize', () => requestAnimationFrame(() => setPos(false)));
     })();
   </script>
 </body>
