@@ -1218,7 +1218,7 @@
     .project-card-img {
       width: 100%;
       height: 340px;
-      object-fit: cover;
+      object-fit: contain;
       border-radius: 8px;
     }
 
@@ -1247,6 +1247,33 @@
       text-align: center;
     }
 
+    .carousel-nav {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.6rem;
+    }
+
+    .carousel-btn {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      cursor: pointer;
+      color: var(--fg);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .carousel-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+      transform: scale(1.08);
+    }
 
     @media (max-width: 600px) {
       /* Hide desktop-only corners */
@@ -1300,6 +1327,7 @@
       }
 
       /* ── Projects section ───────────────────────────────────────────────── */
+      .carousel-nav { margin-top: 0.8rem; }
       .projects-container { width: 100%; min-width: 0; }
       .project-slide { flex: 0 0 100%; padding: 0; }
       .project-card-img,
@@ -1569,6 +1597,10 @@
 
         </div>
       </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn" id="proj-prev">&#8592;</button>
+        <button class="carousel-btn" id="proj-next">&#8594;</button>
+      </div>
     </div>
   </div>
 
@@ -1790,7 +1822,6 @@
       let idx           = N;
       let transitioning = false;
       let lastAdvance   = 0;
-      let mouseAccumX   = 0;
 
       function cardPx() {
         return viewport.offsetWidth / VISIBLE;
@@ -1821,17 +1852,13 @@
         const now = Date.now();
         if (transitioning || now - lastAdvance < 580) return;
         lastAdvance = now;
-        mouseAccumX = 0;
         idx += dir;
         setPos(true);
       }
 
-      // Mouse movement: accumulate horizontal delta, advance every ~60px
-      projectsSection.addEventListener('mousemove', (e) => {
-        mouseAccumX += e.movementX;
-        if (mouseAccumX < -60) advance(1);   // moved left  → next
-        else if (mouseAccumX > 60) advance(-1); // moved right → prev
-      });
+      // Arrow buttons
+      document.getElementById('proj-prev').addEventListener('click', () => advance(-1));
+      document.getElementById('proj-next').addEventListener('click', () => advance(1));
 
       // Recalculate on resize
       window.addEventListener('resize', () => requestAnimationFrame(() => setPos(false)));
